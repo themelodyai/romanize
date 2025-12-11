@@ -87,8 +87,8 @@ Some romanizers have additional options. For example, the `ChineseRomanizer` has
 ## Supported Languages
 
 - **Korean** (한국어)
-- **Japanese** (日本語) - Using `kana_kit` for Kana conversion
-- **Chinese** (中文) - Using `pinyin` for Pinyin conversion (Simplified and Traditional)
+- **Japanese** (日本語) - Using [`kana_kit`](https://pub.dev/packages/kana_kit) for Kana conversion
+- **Chinese** (中文) - Using [`pinyin`](https://pub.dev/packages/pinyin) for Pinyin conversion (Simplified and Traditional)
 - **Cyrillic** (Кириллица) - Custom transliteration for Russian, Ukrainian, Serbian, and more
 - **Arabic** (العربية) - Custom transliteration based on ISO 233 and DIN 31635
 

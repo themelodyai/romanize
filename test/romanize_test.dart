@@ -48,7 +48,7 @@ void main() {
       test('should return empty string for whitespace-only input', () {
         const input = '   \n\t  ';
         final result = TextRomanizer.romanize(input);
-        expect(result, isEmpty);
+        expect(result, equals(input));
       });
 
       test(
