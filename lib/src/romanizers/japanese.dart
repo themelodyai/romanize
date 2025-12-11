@@ -7,7 +7,7 @@ class JapaneseRomanizer extends Romanizer {
   static const kanaKit = KanaKit(
     config: KanaKitConfig(
       passRomaji: true,
-      passKanji: false,
+      passKanji: true,
       upcaseKatakana: false,
     ),
   );

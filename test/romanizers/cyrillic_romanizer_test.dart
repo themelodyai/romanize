@@ -57,6 +57,7 @@ void main() {
         final result = romanizer.romanize('Привет мир');
         expect(result, contains('Privet'));
         expect(result, contains('mir'));
+        expect(result, equals('Privet mir'));
       });
 
       test('should romanize Ukrainian characters', () {
@@ -77,12 +78,14 @@ void main() {
         // Hard sign (Ъ) and soft sign (Ь) are usually omitted
         final result = romanizer.romanize('объект');
         expect(result, isNotEmpty);
+        expect(result, equals('obekt'));
       });
 
       test('should handle mixed content', () {
         final result = romanizer.romanize('Привет Hello');
         expect(result, contains('Privet'));
         expect(result, contains('Hello'));
+        expect(result, equals('Privet Hello'));
       });
 
       test('should handle empty string', () {
@@ -95,6 +98,7 @@ void main() {
         expect(result, contains('Privet'));
         expect(result, contains('Hello'));
         expect(result, contains('123'));
+        expect(result, equals('Privet Hello 123'));
       });
 
       test('should handle all Russian alphabet letters', () {
@@ -102,6 +106,7 @@ void main() {
         final result = romanizer.romanize(russianAlphabet);
         expect(result, isNotEmpty);
         expect(result.length, greaterThan(0));
+        expect(result, equals('ABVGDEYoZhZIYKLMNOPRSTUFKhTsChShShchYEYuYa'));
       });
 
       test('should handle lowercase letters', () {
@@ -109,8 +114,8 @@ void main() {
         final result = romanizer.romanize(lowercase);
         expect(result, isNotEmpty);
         expect(result, equals(result.toLowerCase()));
+        expect(result, equals('abvgdeyozhziyklmnoprstufkhtschshshchyeyuya'));
       });
     });
   });
 }
-

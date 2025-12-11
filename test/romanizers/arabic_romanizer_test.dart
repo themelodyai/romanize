@@ -43,22 +43,26 @@ void main() {
         final result = romanizer.romanize('أنا');
         expect(result, isNotEmpty);
         expect(result, isA<String>());
+        expect(result, equals('ana'));
       });
 
       test('should handle mixed content', () {
         final result = romanizer.romanize('أنا Hello');
         expect(result, isNotEmpty);
+        expect(result, equals('ana Hello'));
       });
 
       test('should handle empty string', () {
         final result = romanizer.romanize('');
         expect(result, isEmpty);
+        expect(result, equals(''));
       });
 
       test('should preserve non-Arabic characters', () {
         final result = romanizer.romanize('أنا Hello 123');
         expect(result, contains('Hello'));
         expect(result, contains('123'));
+        expect(result, equals('ana Hello 123'));
       });
 
       test('should handle longer Arabic text', () {
@@ -66,6 +70,8 @@ void main() {
         final result = romanizer.romanize(arabicText);
         expect(result, isNotEmpty);
         expect(result, isA<String>());
+        // ana al arabi wlad al ghaba
+        expect(result, equals('ana alʿrby wld alghabh'));
       });
     });
   });

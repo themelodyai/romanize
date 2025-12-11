@@ -42,11 +42,13 @@ void main() {
         final result = romanizer.romanize('안녕하세요');
         expect(result, isNotEmpty);
         expect(result, isA<String>());
+        expect(result, equals('annyeonghaseyo'));
       });
 
       test('should handle mixed content', () {
         final result = romanizer.romanize('안녕 Hello');
         expect(result, isNotEmpty);
+        expect(result, equals('annyeong Hello'));
       });
 
       test('should handle empty string', () {
@@ -58,8 +60,8 @@ void main() {
         final result = romanizer.romanize('안녕 Hello 123');
         expect(result, contains('Hello'));
         expect(result, contains('123'));
+        expect(result, equals('annyeong Hello 123'));
       });
     });
   });
 }
-
