@@ -27,6 +27,14 @@ abstract class Romanizer {
 
   /// Validates if the input string can be processed by this romanizer.
   bool isValid(String input);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Romanizer && runtimeType == other.runtimeType;
+
+  @override
+  int get hashCode => runtimeType.hashCode;
 }
 
 class EmptyRomanizer extends Romanizer {

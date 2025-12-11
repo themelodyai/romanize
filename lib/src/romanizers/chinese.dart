@@ -36,6 +36,18 @@ class ChineseRomanizer extends Romanizer {
 
   final ToneAnnotation toneAnnotation;
 
+  String _convertToPinyin(String input) {
+    return PinyinHelper.getPinyin(
+      input,
+      separator: ' ',
+      format: switch (toneAnnotation) {
+        ToneAnnotation.none => PinyinFormat.WITHOUT_TONE,
+        ToneAnnotation.number => PinyinFormat.WITH_TONE_NUMBER,
+        ToneAnnotation.mark => PinyinFormat.WITH_TONE_MARK,
+      },
+    );
+  }
+
   /// Converts a given Chinese string to its Romanized form (Pinyin).
   ///
   /// This method uses the `pinyin` package to transliterate Chinese
@@ -52,21 +64,14 @@ class ChineseRomanizer extends Romanizer {
   String romanize(String input) {
     if (input.trim().isEmpty) return '';
 
+    if (!input.contains('\n')) {
+      return _convertToPinyin(input);
+    }
+
     final buffer = StringBuffer();
     final lines = input.split('\n');
     for (final line in lines) {
-      buffer.write(
-        PinyinHelper.getPinyin(
-          line,
-          separator: ' ',
-          format: switch (toneAnnotation) {
-            ToneAnnotation.none => PinyinFormat.WITHOUT_TONE,
-            ToneAnnotation.number => PinyinFormat.WITH_TONE_NUMBER,
-            ToneAnnotation.mark => PinyinFormat.WITH_TONE_MARK,
-          },
-        ),
-      );
-      if (lines.length > 1) buffer.write('\n');
+      buffer.writeln(_convertToPinyin(line));
     }
     return buffer.toString();
   }

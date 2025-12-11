@@ -15,12 +15,11 @@ class KoreanRomanizer extends Romanizer {
   @override
   String romanize(String input) {
     final buffer = StringBuffer();
-    final runes = input.runes.toList(); // Convert once
-    for (int i = 0; i < runes.length; i++) {
-      final char = String.fromCharCode(runes[i]);
+    for (final char in input.runes) {
+      final charString = String.fromCharCode(char);
       buffer.write(
         _koreanRomanizationConverter.romanizeChar(
-          _disassemble.disassembleChar(char),
+          _disassemble.disassembleChar(charString),
         ),
       );
     }

@@ -30,10 +30,12 @@ export 'src/romanizers/korean.dart';
 /// final result = romanizer.romanize('こんにちは'); // konnichiwa
 /// ```
 class TextRomanizer {
+  const TextRomanizer._();
+
   /// List of all available romanizers.
   ///
   /// The romanizers are checked in order when auto-detecting the language.
-  static const Set<Romanizer> romanizers = <Romanizer>{
+  static final Set<Romanizer> romanizers = <Romanizer>{
     KoreanRomanizer(),
     JapaneseRomanizer(),
     ChineseRomanizer(),
@@ -54,13 +56,12 @@ class TextRomanizer {
   /// final romanizer = TextRomanizer.detectLanguage('안녕하세요');
   /// print(romanizer.language); // korean
   /// ```
-  static Romanizer detectLanguage(
-    String input, [
-    Set<Romanizer> romanizers = TextRomanizer.romanizers,
-  ]) {
-    if (input.trim().isEmpty) {
+  static Romanizer detectLanguage(String input, [Set<Romanizer>? romanizers]) {
+    if (input.isEmpty || !RegExp(r'\S').hasMatch(input)) {
       return const EmptyRomanizer();
     }
+
+    romanizers ??= TextRomanizer.romanizers;
 
     return romanizers.firstWhere(
       (romanizer) => romanizer.isValid(input),
@@ -82,12 +83,14 @@ class TextRomanizer {
   /// print(languages); // {KoreanRomanizer()}
   /// ```
   static Set<Romanizer> detectLanguages(String input) {
-    if (input.trim().isEmpty) {
-      return const {EmptyRomanizer()};
+    if (input.isEmpty || !RegExp(r'\S').hasMatch(input)) {
+      return {EmptyRomanizer()};
     }
 
     return romanizers.where((romanizer) => romanizer.isValid(input)).toSet();
   }
+
+  static final _separatorPattern = RegExp(r'[\s\p{P}]+');
 
   /// Romanizes the input text by processing each word separately.
   ///
@@ -111,18 +114,24 @@ class TextRomanizer {
     if (languages.length == 1) {
       return languages.first.romanize(input);
     }
+    final wordCache = <String, Romanizer>{};
 
-    final buffer = StringBuffer();
-    final lines = input.split('\n');
-    for (final line in lines) {
-      final words = line.split(' ');
-      for (final word in words) {
-        buffer.write(detectLanguage(word, languages).romanize(word));
-        buffer.write(' ');
-      }
-      buffer.write('\n');
-    }
-    return buffer.toString();
+    return input.splitMapJoin(
+      _separatorPattern,
+      // Handle the separators (whitespace and punctuation):
+      onMatch: (Match match) => match[0]!,
+      // Handle the content (words):
+      onNonMatch: (String word) {
+        if (word.isEmpty) return '';
+
+        final romanizer = wordCache.putIfAbsent(
+          word,
+          () => detectLanguage(word, languages),
+        );
+
+        return romanizer.romanize(word);
+      },
+    );
   }
 
   /// Returns a [Romanizer] for the specified language.
