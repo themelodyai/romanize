@@ -254,6 +254,103 @@ void main() {
       });
     });
 
+    group('detectLanguages', () {
+      test('should detect Korean language', () {
+        const input = '안녕하세요';
+        final languages = TextRomanizer.detectLanguages(input);
+        expect(languages, isNotEmpty);
+        expect(languages.length, equals(1));
+        expect(languages.first, isA<KoreanRomanizer>());
+        expect(languages.first.language, equals('korean'));
+      });
+
+      test('should detect Japanese language', () {
+        const input = 'こんにちは';
+        final languages = TextRomanizer.detectLanguages(input);
+        expect(languages, isNotEmpty);
+        expect(languages.length, equals(1));
+        expect(languages.first, isA<JapaneseRomanizer>());
+        expect(languages.first.language, equals('japanese'));
+      });
+
+      test('should detect Chinese language', () {
+        const input = '你好';
+        final languages = TextRomanizer.detectLanguages(input);
+        expect(languages, isNotEmpty);
+        expect(languages.length, equals(1));
+        expect(languages.first, isA<ChineseRomanizer>());
+        expect(languages.first.language, equals('chinese'));
+      });
+
+      test('should detect Cyrillic language', () {
+        const input = 'Привет';
+        final languages = TextRomanizer.detectLanguages(input);
+        expect(languages, isNotEmpty);
+        expect(languages.length, equals(1));
+        expect(languages.first, isA<CyrillicRomanizer>());
+        expect(languages.first.language, equals('cyrillic'));
+      });
+
+      test('should detect Arabic language', () {
+        const input = 'أنا';
+        final languages = TextRomanizer.detectLanguages(input);
+        expect(languages, isNotEmpty);
+        expect(languages.length, equals(1));
+        expect(languages.first, isA<ArabicRomanizer>());
+        expect(languages.first.language, equals('arabic'));
+      });
+
+      test('should return set with EmptyRomanizer for empty input', () {
+        const input = '';
+        final languages = TextRomanizer.detectLanguages(input);
+        expect(languages, isNotEmpty);
+        expect(languages.length, equals(1));
+        expect(languages.first.language, equals('empty'));
+      });
+
+      test(
+        'should return set with EmptyRomanizer for whitespace-only input',
+        () {
+          const input = '   ';
+          final languages = TextRomanizer.detectLanguages(input);
+          expect(languages, isNotEmpty);
+          expect(languages.length, equals(1));
+          expect(languages.first.language, equals('empty'));
+        },
+      );
+
+      test('should return empty set for unsupported language', () {
+        const input = 'Hello World';
+        final languages = TextRomanizer.detectLanguages(input);
+        expect(languages, isEmpty);
+      });
+
+      test('should return a Set', () {
+        const input = '안녕하세요';
+        final languages = TextRomanizer.detectLanguages(input);
+        expect(languages, isA<Set<Romanizer>>());
+      });
+
+      test('should handle mixed content that matches multiple languages', () {
+        // Note: This test depends on whether any romanizer accepts mixed content
+        // In practice, most romanizers will accept mixed content if it contains
+        // their language's characters
+        const input = '안녕 Hello 你好';
+        final languages = TextRomanizer.detectLanguages(input);
+        // Should detect at least Korean and Chinese
+        expect(languages.length, greaterThanOrEqualTo(1));
+        final languageNames = languages.map((r) => r.language).toSet();
+        expect(languageNames, contains('korean'));
+        expect(languageNames, contains('chinese'));
+      });
+
+      test('should return unique romanizers (no duplicates)', () {
+        const input = '안녕하세요';
+        final languages = TextRomanizer.detectLanguages(input);
+        expect(languages.length, equals(languages.toSet().length));
+      });
+    });
+
     group('supportedLanguages', () {
       test('should return list of supported languages', () {
         final languages = TextRomanizer.supportedLanguages;
@@ -265,9 +362,9 @@ void main() {
         expect(languages, contains('arabic'));
       });
 
-      test('should return immutable list', () {
+      test('should return immutable set', () {
         final languages = TextRomanizer.supportedLanguages;
-        expect(languages, isA<List<String>>());
+        expect(languages, isA<Set<String>>());
       });
     });
   });

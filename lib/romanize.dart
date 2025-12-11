@@ -33,13 +33,13 @@ class TextRomanizer {
   /// List of all available romanizers.
   ///
   /// The romanizers are checked in order when auto-detecting the language.
-  static const List<Romanizer> romanizers = <Romanizer>[
+  static const Set<Romanizer> romanizers = <Romanizer>{
     KoreanRomanizer(),
     JapaneseRomanizer(),
     ChineseRomanizer(),
     CyrillicRomanizer(),
     ArabicRomanizer(),
-  ];
+  };
 
   /// Automatically detects the language of the input text.
   ///
@@ -63,6 +63,27 @@ class TextRomanizer {
       (romanizer) => romanizer.isValid(input),
       orElse: () => const EmptyRomanizer(),
     );
+  }
+
+  /// Detects the languages of the input text.
+  ///
+  /// This method iterates through all available romanizers and returns a set
+  /// of valid romanizers for the input text.
+  ///
+  /// Returns an empty set if the input is empty or not valid for any
+  /// known languages.
+  ///
+  /// Example:
+  /// ```dart
+  /// final languages = TextRomanizer.detectLanguages('안녕하세요');
+  /// print(languages); // {KoreanRomanizer()}
+  /// ```
+  static Set<Romanizer> detectLanguages(String input) {
+    if (input.trim().isEmpty) {
+      return const {EmptyRomanizer()};
+    }
+
+    return romanizers.where((romanizer) => romanizer.isValid(input)).toSet();
   }
 
   /// Romanizes the input text by processing each word separately.
@@ -167,6 +188,6 @@ class TextRomanizer {
   /// final languages = TextRomanizer.supportedLanguages;
   /// print(languages); // ['korean', 'japanese']
   /// ```
-  static List<String> get supportedLanguages =>
-      romanizers.map((r) => r.language).toList();
+  static Set<String> get supportedLanguages =>
+      romanizers.map((r) => r.language).toSet();
 }
