@@ -1,6 +1,7 @@
 library;
 
 import 'package:romanize/src/romanize_base.dart';
+import 'package:romanize/src/romanizers/cyrillic.dart';
 import 'package:romanize/src/romanizers/japanese.dart';
 import 'package:romanize/src/romanizers/korean.dart';
 
@@ -28,6 +29,7 @@ class TextRomanizer {
   static const List<Romanizer> romanizers = <Romanizer>[
     KoreanRomanizer(),
     JapaneseRomanizer(),
+    CyrillicRomanizer(),
   ];
 
   /// Automatically detects the language and romanizes the input text.
