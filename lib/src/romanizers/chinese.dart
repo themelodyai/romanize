@@ -50,15 +50,27 @@ class ChineseRomanizer extends Romanizer {
   /// ```
   @override
   String romanize(String input) {
-    return PinyinHelper.getPinyin(
-      input,
-      separator: ' ',
-      format: switch (toneAnnotation) {
-        ToneAnnotation.none => PinyinFormat.WITHOUT_TONE,
-        ToneAnnotation.number => PinyinFormat.WITH_TONE_NUMBER,
-        ToneAnnotation.mark => PinyinFormat.WITH_TONE_MARK,
-      },
-    );
+    final buffer = StringBuffer();
+    final lines = input.split('\n');
+    for (final line in lines) {
+      final words = line.split(' ');
+      for (final word in words) {
+        buffer.write(
+          PinyinHelper.getPinyin(
+            word,
+            separator: ' ',
+            format: switch (toneAnnotation) {
+              ToneAnnotation.none => PinyinFormat.WITHOUT_TONE,
+              ToneAnnotation.number => PinyinFormat.WITH_TONE_NUMBER,
+              ToneAnnotation.mark => PinyinFormat.WITH_TONE_MARK,
+            },
+          ),
+        );
+        buffer.write(' ');
+      }
+      if (lines.length > 1) buffer.write('\n');
+    }
+    return buffer.toString();
   }
 
   /// Validates if the input string contains Chinese characters.
@@ -77,19 +89,6 @@ class ChineseRomanizer extends Romanizer {
   /// ```
   @override
   bool isValid(String input) {
-    // Check for Chinese characters in Unicode ranges:
-    // - CJK Unified Ideographs: U+4E00–U+9FFF
-    // - CJK Unified Ideographs Extension A: U+3400–U+4DBF
-    // - CJK Unified Ideographs Extension B: U+20000–U+2A6DF
-    // - CJK Unified Ideographs Extension C: U+2A700–U+2B73F
-    // - CJK Unified Ideographs Extension D: U+2B740–U+2B81F
-    // - CJK Unified Ideographs Extension E: U+2B820–U+2CEAF
-    // - CJK Compatibility Ideographs: U+F900–U+FAFF
-    // - CJK Radicals Supplement: U+2E80–U+2EFF
-    // - CJK Strokes: U+31C0–U+31EF
-    // - Ideographic Description Characters: U+2FF0–U+2FFF
-    return RegExp(
-      r'[\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF\u2E80-\u2EFF\u31C0-\u31EF\u2FF0-\u2FFF]',
-    ).hasMatch(input);
+    return ChineseHelper.containsChinese(input);
   }
 }
