@@ -1,11 +1,16 @@
 library;
 
 import 'package:romanize/src/romanize_base.dart';
+import 'package:romanize/src/romanizers/arabic.dart';
 import 'package:romanize/src/romanizers/cyrillic.dart';
 import 'package:romanize/src/romanizers/japanese.dart';
 import 'package:romanize/src/romanizers/korean.dart';
 
 export 'src/romanize_base.dart';
+export 'src/romanizers/arabic.dart';
+export 'src/romanizers/cyrillic.dart';
+export 'src/romanizers/japanese.dart';
+export 'src/romanizers/korean.dart';
 
 /// A utility class for converting text to Romanized form.
 ///
@@ -30,6 +35,7 @@ class TextRomanizer {
     KoreanRomanizer(),
     JapaneseRomanizer(),
     CyrillicRomanizer(),
+    ArabicRomanizer(),
   ];
 
   /// Automatically detects the language and romanizes the input text.
