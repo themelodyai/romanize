@@ -8,7 +8,6 @@ environment:
 
 dependencies:
   # Romanizers
-  korean_romanization_converter: ^0.0.1
   kana_kit: ^2.1.1
   pinyin: ^3.3.0
 

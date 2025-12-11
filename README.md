@@ -86,7 +86,7 @@ Some romanizers have additional options. For example, the `ChineseRomanizer` has
 
 ## Supported Languages
 
-- **Korean** (한국어) - Using `korean_romanization_converter`
+- **Korean** (한국어)
 - **Japanese** (日本語) - Using `kana_kit` for Kana conversion
 - **Chinese** (中文) - Using `pinyin` for Pinyin conversion (Simplified and Traditional)
 - **Cyrillic** (Кириллица) - Custom transliteration for Russian, Ukrainian, Serbian, and more
@@ -125,7 +125,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ### Creating a Custom Romanizer
 
-To create a custom romanizer for a new language, you can extend the `Romanizer` class and implement the `romanize` and `isValid` methods.
+To create a custom romanizer for a new language or writing system, you can extend the `Romanizer` class and implement the `romanize` and `isValid` methods.
 
 ```dart
 class EmojiRomanizer extends Romanizer {
