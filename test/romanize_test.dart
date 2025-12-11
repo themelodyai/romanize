@@ -25,6 +25,13 @@ void main() {
         expect(result, contains('Privet'));
       });
 
+      test('should auto-detect and romanize Chinese text', () {
+        const input = '你好';
+        final result = TextRomanizer.romanize(input);
+        expect(result, isNotEmpty);
+        expect(result, isA<String>());
+      });
+
       test('should auto-detect and romanize Arabic text', () {
         const input = 'أنا العربي';
         final result = TextRomanizer.romanize(input);
@@ -86,6 +93,12 @@ void main() {
         final romanizer = TextRomanizer.forLanguage('cyrillic');
         expect(romanizer, isA<CyrillicRomanizer>());
         expect(romanizer.language, equals('cyrillic'));
+      });
+
+      test('should return ChineseRomanizer for "chinese"', () {
+        final romanizer = TextRomanizer.forLanguage('chinese');
+        expect(romanizer, isA<ChineseRomanizer>());
+        expect(romanizer.language, equals('chinese'));
       });
 
       test('should return ArabicRomanizer for "arabic"', () {
@@ -169,6 +182,7 @@ void main() {
         expect(languages, isNotEmpty);
         expect(languages, contains('korean'));
         expect(languages, contains('japanese'));
+        expect(languages, contains('chinese'));
         expect(languages, contains('cyrillic'));
         expect(languages, contains('arabic'));
       });
