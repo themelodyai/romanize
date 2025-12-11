@@ -12,13 +12,17 @@ class JapaneseRomanizer extends Romanizer {
     ),
   );
 
-  @override
-  bool isValid(String input) {
-    return RegExp(r'[\u3040-\u309F\u30A0-\u30FF\uFF66-\uFF9F]').hasMatch(input);
-  }
+  static final _japanesePattern = RegExp(
+    r'[\u3040-\u309F\u30A0-\u30FF\uFF66-\uFF9F]',
+  );
 
   @override
   String romanize(String input) {
     return kanaKit.toRomaji(input);
+  }
+
+  @override
+  bool isValid(String input) {
+    return _japanesePattern.hasMatch(input);
   }
 }

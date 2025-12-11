@@ -55,21 +55,17 @@ class ChineseRomanizer extends Romanizer {
     final buffer = StringBuffer();
     final lines = input.split('\n');
     for (final line in lines) {
-      final words = line.split(' ');
-      for (final word in words) {
-        buffer.write(
-          PinyinHelper.getPinyin(
-            word,
-            separator: ' ',
-            format: switch (toneAnnotation) {
-              ToneAnnotation.none => PinyinFormat.WITHOUT_TONE,
-              ToneAnnotation.number => PinyinFormat.WITH_TONE_NUMBER,
-              ToneAnnotation.mark => PinyinFormat.WITH_TONE_MARK,
-            },
-          ),
-        );
-        buffer.write(' ');
-      }
+      buffer.write(
+        PinyinHelper.getPinyin(
+          line,
+          separator: ' ',
+          format: switch (toneAnnotation) {
+            ToneAnnotation.none => PinyinFormat.WITHOUT_TONE,
+            ToneAnnotation.number => PinyinFormat.WITH_TONE_NUMBER,
+            ToneAnnotation.mark => PinyinFormat.WITH_TONE_MARK,
+          },
+        ),
+      );
       if (lines.length > 1) buffer.write('\n');
     }
     return buffer.toString();

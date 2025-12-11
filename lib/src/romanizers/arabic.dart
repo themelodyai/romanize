@@ -73,6 +73,10 @@ class ArabicRomanizer extends Romanizer {
     '٩': '9',
   };
 
+  static final _arabicPattern = RegExp(
+    r'[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\u0870-\u089F\uFB50-\uFDFF\uFE70-\uFEFF]',
+  );
+
   /// Converts a given Arabic string to its Romanized form.
   ///
   /// This method transliterates Arabic characters into their Latin
@@ -91,11 +95,7 @@ class ArabicRomanizer extends Romanizer {
     final buffer = StringBuffer();
     for (final char in input.runes) {
       final charString = String.fromCharCode(char);
-      if (_transliterationMap.containsKey(charString)) {
-        buffer.write(_transliterationMap[charString]);
-      } else {
-        buffer.write(charString);
-      }
+      buffer.write(_transliterationMap[charString] ?? charString);
     }
     return buffer.toString();
   }
@@ -121,8 +121,6 @@ class ArabicRomanizer extends Romanizer {
     // - Arabic Extended-B: U+0870–U+089F
     // - Arabic Presentation Forms-A: U+FB50–U+FDFF
     // - Arabic Presentation Forms-B: U+FE70–U+FEFF
-    return RegExp(
-      r'[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\u0870-\u089F\uFB50-\uFDFF\uFE70-\uFEFF]',
-    ).hasMatch(input);
+    return _arabicPattern.hasMatch(input);
   }
 }

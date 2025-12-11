@@ -88,6 +88,10 @@ class CyrillicRomanizer extends Romanizer {
     'Ӿ': 'Kh', 'ӿ': 'kh',
   };
 
+  static final _cyrillicPattern = RegExp(
+    r'[\u0400-\u04FF\u0500-\u052F\u2DE0-\u2DFF\uA640-\uA69F\u1C80-\u1C8F]',
+  );
+
   /// Converts a given Cyrillic string to its Romanized form.
   ///
   /// This method transliterates Cyrillic characters into their Latin
@@ -106,11 +110,7 @@ class CyrillicRomanizer extends Romanizer {
     final buffer = StringBuffer();
     for (final char in input.runes) {
       final charString = String.fromCharCode(char);
-      if (_transliterationMap.containsKey(charString)) {
-        buffer.write(_transliterationMap[charString]);
-      } else {
-        buffer.write(charString);
-      }
+      buffer.write(_transliterationMap[charString] ?? charString);
     }
     return buffer.toString();
   }
@@ -135,8 +135,6 @@ class CyrillicRomanizer extends Romanizer {
     // - Cyrillic Extended-A: U+2DE0–U+2DFF
     // - Cyrillic Extended-B: U+A640–U+A69F
     // - Cyrillic Extended-C: U+1C80–U+1C8F
-    return RegExp(
-      r'[\u0400-\u04FF\u0500-\u052F\u2DE0-\u2DFF\uA640-\uA69F\u1C80-\u1C8F]',
-    ).hasMatch(input);
+    return _cyrillicPattern.hasMatch(input);
   }
 }

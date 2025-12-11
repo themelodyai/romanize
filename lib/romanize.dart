@@ -54,7 +54,10 @@ class TextRomanizer {
   /// final romanizer = TextRomanizer.detectLanguage('안녕하세요');
   /// print(romanizer.language); // korean
   /// ```
-  static Romanizer detectLanguage(String input) {
+  static Romanizer detectLanguage(
+    String input, [
+    Set<Romanizer> romanizers = TextRomanizer.romanizers,
+  ]) {
     if (input.trim().isEmpty) {
       return const EmptyRomanizer();
     }
@@ -104,14 +107,17 @@ class TextRomanizer {
   /// print(result2); // ni hao shi jie
   /// ```
   static String romanize(String input) {
-    if (input.trim().isEmpty) return '';
+    final languages = detectLanguages(input);
+    if (languages.length == 1) {
+      return languages.first.romanize(input);
+    }
 
     final buffer = StringBuffer();
     final lines = input.split('\n');
     for (final line in lines) {
       final words = line.split(' ');
       for (final word in words) {
-        buffer.write(detectLanguage(word).romanize(word));
+        buffer.write(detectLanguage(word, languages).romanize(word));
         buffer.write(' ');
       }
       buffer.write('\n');
