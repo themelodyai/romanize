@@ -28,3 +28,17 @@ abstract class Romanizer {
   /// Validates if the input string can be processed by this romanizer.
   bool isValid(String input);
 }
+
+class EmptyRomanizer extends Romanizer {
+  const EmptyRomanizer() : super(language: 'empty');
+
+  @override
+  bool isValid(String input) {
+    return true;
+  }
+
+  @override
+  String romanize(String input) {
+    return input;
+  }
+}

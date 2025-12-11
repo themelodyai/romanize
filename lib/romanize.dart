@@ -41,31 +41,28 @@ class TextRomanizer {
     ArabicRomanizer(),
   ];
 
-  /// Automatically detects the language and romanizes the input text.
+  /// Automatically detects the language of the input text.
   ///
   /// This method iterates through all available romanizers and uses the first
-  /// one that validates the input as valid for its language. Use [forLanguage]
-  /// to get a specific romanizer for a language.
+  /// one that validates the input as valid for its language.
   ///
-  /// Throws [ArgumentError] if no romanizer can validate the input.
+  /// Returns an [EmptyRomanizer] if the input is empty or not valid for any
+  /// known languages.
   ///
   /// Example:
   /// ```dart
-  /// final result = TextRomanizer.romanize('안녕하세요');
-  /// print(result); // annyeonghaseyo
+  /// final romanizer = TextRomanizer.detectLanguage('안녕하세요');
+  /// print(romanizer.language); // korean
   /// ```
-  static String romanize(String input) {
+  static Romanizer detectLanguage(String input) {
     if (input.trim().isEmpty) {
-      return '';
+      return const EmptyRomanizer();
     }
 
-    for (final romanizer in romanizers) {
-      if (romanizer.isValid(input)) {
-        return romanizer.romanize(input);
-      }
-    }
-
-    return input;
+    return romanizers.firstWhere(
+      (romanizer) => romanizer.isValid(input),
+      orElse: () => const EmptyRomanizer(),
+    );
   }
 
   /// Romanizes the input text by processing each word separately.
@@ -85,17 +82,15 @@ class TextRomanizer {
   /// final result2 = TextRomanizer.romanizeWords('你好世界');
   /// print(result2); // ni hao shi jie
   /// ```
-  static String romanizeWords(String input) {
-    if (input.trim().isEmpty) {
-      return '';
-    }
+  static String romanize(String input) {
+    if (input.trim().isEmpty) return '';
 
     final buffer = StringBuffer();
     final lines = input.split('\n');
     for (final line in lines) {
       final words = line.split(' ');
       for (final word in words) {
-        buffer.write(romanize(word));
+        buffer.write(detectLanguage(word).romanize(word));
         buffer.write(' ');
       }
       buffer.write('\n');

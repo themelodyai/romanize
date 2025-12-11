@@ -51,18 +51,37 @@ void main() {
         expect(result, isEmpty);
       });
 
-      test('should throw ArgumentError for unsupported language', () {
-        const input = 'Hello World';
-        expect(
-          () => TextRomanizer.romanize(input),
-          throwsA(isA<ArgumentError>()),
-        );
-      });
+      test(
+        'should handle unsupported language by returning input unchanged',
+        () {
+          const input = 'Hello World';
+          final result = TextRomanizer.romanize(input);
+          // EmptyRomanizer returns input unchanged
+          expect(result, contains('Hello'));
+          expect(result, contains('World'));
+        },
+      );
 
-      test('should handle mixed content correctly', () {
-        const input = '안녕 Hello';
+      test('should handle multi-language text correctly', () {
+        const input = '안녕 Hello 你好';
         final result = TextRomanizer.romanize(input);
         expect(result, isNotEmpty);
+        // Should contain romanized Korean and Chinese, plus unchanged English
+        expect(result, contains('Hello'));
+      });
+
+      test('should process each word separately', () {
+        const input = '你好 Hello';
+        final result = TextRomanizer.romanize(input);
+        // Should romanize Chinese word and keep English word
+        expect(result, isNotEmpty);
+        expect(result, contains('Hello'));
+      });
+
+      test('should preserve line breaks', () {
+        const input = '안녕\nHello';
+        final result = TextRomanizer.romanize(input);
+        expect(result, contains('\n'));
       });
     });
 
@@ -173,6 +192,65 @@ void main() {
         final romanizer = TextRomanizer.forLanguageOrNull('  japanese  ');
         expect(romanizer, isNotNull);
         expect(romanizer, isA<JapaneseRomanizer>());
+      });
+    });
+
+    group('detectLanguage', () {
+      test('should detect Korean language', () {
+        const input = '안녕하세요';
+        final romanizer = TextRomanizer.detectLanguage(input);
+        expect(romanizer, isA<KoreanRomanizer>());
+        expect(romanizer.language, equals('korean'));
+      });
+
+      test('should detect Japanese language', () {
+        const input = 'こんにちは';
+        final romanizer = TextRomanizer.detectLanguage(input);
+        expect(romanizer, isA<JapaneseRomanizer>());
+        expect(romanizer.language, equals('japanese'));
+      });
+
+      test('should detect Chinese language', () {
+        const input = '你好';
+        final romanizer = TextRomanizer.detectLanguage(input);
+        expect(romanizer, isA<ChineseRomanizer>());
+        expect(romanizer.language, equals('chinese'));
+      });
+
+      test('should detect Cyrillic language', () {
+        const input = 'Привет';
+        final romanizer = TextRomanizer.detectLanguage(input);
+        expect(romanizer, isA<CyrillicRomanizer>());
+        expect(romanizer.language, equals('cyrillic'));
+      });
+
+      test('should detect Arabic language', () {
+        const input = 'أنا';
+        final romanizer = TextRomanizer.detectLanguage(input);
+        expect(romanizer, isA<ArabicRomanizer>());
+        expect(romanizer.language, equals('arabic'));
+      });
+
+      test('should return EmptyRomanizer for empty input', () {
+        const input = '';
+        final romanizer = TextRomanizer.detectLanguage(input);
+        expect(romanizer.language, equals('empty'));
+        // EmptyRomanizer returns input unchanged
+        expect(romanizer.romanize('test'), equals('test'));
+      });
+
+      test('should return EmptyRomanizer for whitespace-only input', () {
+        const input = '   ';
+        final romanizer = TextRomanizer.detectLanguage(input);
+        expect(romanizer.language, equals('empty'));
+      });
+
+      test('should return EmptyRomanizer for unsupported language', () {
+        const input = 'Hello World';
+        final romanizer = TextRomanizer.detectLanguage(input);
+        expect(romanizer.language, equals('empty'));
+        // EmptyRomanizer returns input unchanged
+        expect(romanizer.romanize(input), equals(input));
       });
     });
 

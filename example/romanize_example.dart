@@ -140,6 +140,6 @@ Na-na-na
 From home
 And we start from here our home
 ''';
-  final multiLanguagesOutput = TextRomanizer.romanizeWords(multiLanguagesText);
+  final multiLanguagesOutput = TextRomanizer.romanize(multiLanguagesText);
   print('Multi Languages Romanization: \n$multiLanguagesOutput');
 }

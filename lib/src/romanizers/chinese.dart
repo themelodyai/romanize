@@ -50,6 +50,8 @@ class ChineseRomanizer extends Romanizer {
   /// ```
   @override
   String romanize(String input) {
+    if (input.trim().isEmpty) return '';
+
     final buffer = StringBuffer();
     final lines = input.split('\n');
     for (final line in lines) {
