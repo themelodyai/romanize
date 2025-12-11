@@ -65,11 +65,42 @@ class TextRomanizer {
       }
     }
 
-    throw ArgumentError.value(
-      input,
-      'input',
-      'No valid Romanizer found for the input. Supported languages: ${supportedLanguages.join(", ")}',
-    );
+    return input;
+  }
+
+  /// Romanizes the input text by processing each word separately.
+  ///
+  /// This method splits the input by spaces and romanizes each word
+  /// independently, which is useful for multi-language text where different
+  /// words may be in different languages. Each word is auto-detected and
+  /// romanized according to its language.
+  ///
+  /// Example:
+  /// ```dart
+  /// // Multi-language text
+  /// final result = TextRomanizer.romanizeWords('你好 Hello 안녕');
+  /// print(result); // ni hao Hello annyeong
+  ///
+  /// // Single language text
+  /// final result2 = TextRomanizer.romanizeWords('你好世界');
+  /// print(result2); // ni hao shi jie
+  /// ```
+  static String romanizeWords(String input) {
+    if (input.trim().isEmpty) {
+      return '';
+    }
+
+    final buffer = StringBuffer();
+    final lines = input.split('\n');
+    for (final line in lines) {
+      final words = line.split(' ');
+      for (final word in words) {
+        buffer.write(romanize(word));
+        buffer.write(' ');
+      }
+      buffer.write('\n');
+    }
+    return buffer.toString();
   }
 
   /// Returns a [Romanizer] for the specified language.
