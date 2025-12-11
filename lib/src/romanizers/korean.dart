@@ -17,7 +17,6 @@ class KoreanRomanizer extends Romanizer {
   /// Validates if the input string is a valid Korean string.
   @override
   bool isValid(String input) {
-    // A simple check to see if the string contains Hangul characters.
     return RegExp(r'[\uAC00-\uD7AF]').hasMatch(input);
   }
 }

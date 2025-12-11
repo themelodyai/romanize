@@ -1,22 +1,30 @@
+/// Abstract base class for language-specific text romanization.
+///
+/// A [Romanizer] converts text from a specific writing system (such as
+/// Japanese, Korean, or Arabic) into its Romanized (Latin script) equivalent.
+/// Each implementation handles the specific rules and conventions for
+/// transliterating characters from that language.
 abstract class Romanizer {
+  /// Creates a new [Romanizer] instance.
   const Romanizer({required this.language});
 
+  /// The language name this romanizer supports.
+  ///
+  /// This should be a lowercase string (e.g., 'japanese', 'korean').
+  /// It is used by [TextRomanizer] to identify and select the appropriate
+  /// romanizer for a given language.
   final String language;
 
   /// Converts a given string to its Romanized form.
   ///
-  /// This method takes a string input and returns its Romanized equivalent.
-  /// The Romanization process may involve transliteration of characters
-  /// from one script to another, depending on the specific rules defined
-  /// in the implementation.
-  ///
   /// Example:
   /// ```dart
-  /// String romanized = Romanizer.romanize("こんにちは");
-  /// print(romanized); // Outputs: konnichiwa
+  /// final romanizer = JapaneseRomanizer();
+  /// final romanized = romanizer.romanize("こんにちは");
+  /// print(romanized); // konnichiwa
   /// ```
   String romanize(String input);
 
-  /// Validates if the input string can be Romanized.
+  /// Validates if the input string can be processed by this romanizer.
   bool isValid(String input);
 }
