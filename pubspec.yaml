@@ -10,7 +10,6 @@ dependencies:
   # Romanizers
   korean_romanization_converter: ^0.0.1
   kana_kit: ^2.1.1
-  arabic_roman_conv: ^0.1.0-dev.2
 
 dev_dependencies:
   lints: ^5.0.0
