@@ -1,7 +1,7 @@
 import 'package:romanize/romanize.dart';
 
-class KoreanRomanizer extends Romanizer {
-  const KoreanRomanizer() : super(language: 'korean');
+class HangulRomanizer extends Romanizer {
+  const HangulRomanizer() : super(language: 'korean');
 
   // Maps to standard Jamo initials (0-18)
   static const _initials = [

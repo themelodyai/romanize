@@ -86,20 +86,20 @@ void main() {
     });
 
     group('forLanguage', () {
-      test('should return KoreanRomanizer for "korean"', () {
+      test('should return HangulRomanizer for "korean"', () {
         final romanizer = TextRomanizer.forLanguage('korean');
-        expect(romanizer, isA<KoreanRomanizer>());
+        expect(romanizer, isA<HangulRomanizer>());
         expect(romanizer.language, equals('korean'));
       });
 
-      test('should return KoreanRomanizer for "Korean" (case insensitive)', () {
+      test('should return HangulRomanizer for "Korean" (case insensitive)', () {
         final romanizer = TextRomanizer.forLanguage('Korean');
-        expect(romanizer, isA<KoreanRomanizer>());
+        expect(romanizer, isA<HangulRomanizer>());
       });
 
-      test('should return KoreanRomanizer for "KOREAN" (case insensitive)', () {
+      test('should return HangulRomanizer for "KOREAN" (case insensitive)', () {
         final romanizer = TextRomanizer.forLanguage('KOREAN');
-        expect(romanizer, isA<KoreanRomanizer>());
+        expect(romanizer, isA<HangulRomanizer>());
       });
 
       test('should return JapaneseRomanizer for "japanese"', () {
@@ -128,7 +128,7 @@ void main() {
 
       test('should handle language with whitespace', () {
         final romanizer = TextRomanizer.forLanguage('  korean  ');
-        expect(romanizer, isA<KoreanRomanizer>());
+        expect(romanizer, isA<HangulRomanizer>());
       });
 
       test('should throw ArgumentError for empty language', () {
@@ -154,10 +154,10 @@ void main() {
     });
 
     group('forLanguageOrNull', () {
-      test('should return KoreanRomanizer for "korean"', () {
+      test('should return HangulRomanizer for "korean"', () {
         final romanizer = TextRomanizer.forLanguageOrNull('korean');
         expect(romanizer, isNotNull);
-        expect(romanizer, isA<KoreanRomanizer>());
+        expect(romanizer, isA<HangulRomanizer>());
       });
 
       test('should return null for null input', () {
@@ -199,7 +199,7 @@ void main() {
       test('should detect Korean language', () {
         const input = '안녕하세요';
         final romanizer = TextRomanizer.detectLanguage(input);
-        expect(romanizer, isA<KoreanRomanizer>());
+        expect(romanizer, isA<HangulRomanizer>());
         expect(romanizer.language, equals('korean'));
       });
 
@@ -260,7 +260,7 @@ void main() {
         final languages = TextRomanizer.detectLanguages(input);
         expect(languages, isNotEmpty);
         expect(languages.length, equals(1));
-        expect(languages.first, isA<KoreanRomanizer>());
+        expect(languages.first, isA<HangulRomanizer>());
         expect(languages.first.language, equals('korean'));
       });
 

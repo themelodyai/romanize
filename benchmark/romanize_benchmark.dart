@@ -129,7 +129,7 @@ class LanguageDetectionBenchmark extends BenchmarkBase {
 class DirectRomanizerBenchmark extends BenchmarkBase {
   DirectRomanizerBenchmark() : super('DirectRomanizer');
 
-  late final KoreanRomanizer koreanRomanizer;
+  late final HangulRomanizer hangulRomanizer;
   late final JapaneseRomanizer japaneseRomanizer;
   late final ChineseRomanizer chineseRomanizer;
   late final CyrillicRomanizer cyrillicRomanizer;
@@ -137,7 +137,7 @@ class DirectRomanizerBenchmark extends BenchmarkBase {
 
   @override
   void setup() {
-    koreanRomanizer = KoreanRomanizer();
+    hangulRomanizer = HangulRomanizer();
     japaneseRomanizer = JapaneseRomanizer();
     chineseRomanizer = ChineseRomanizer();
     cyrillicRomanizer = CyrillicRomanizer();
@@ -146,7 +146,7 @@ class DirectRomanizerBenchmark extends BenchmarkBase {
 
   @override
   void run() {
-    koreanRomanizer.romanize(KoreanRomanizeBenchmark.koreanTextLong);
+    hangulRomanizer.romanize(KoreanRomanizeBenchmark.koreanTextLong);
     japaneseRomanizer.romanize(JapaneseRomanizeBenchmark.japaneseTextLong);
     chineseRomanizer.romanize(ChineseRomanizeBenchmark.chineseTextLong);
     cyrillicRomanizer.romanize(CyrillicRomanizeBenchmark.cyrillicTextLong);
