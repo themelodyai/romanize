@@ -27,7 +27,7 @@ class _HomeState extends State<Home> {
   Component build(BuildContext context) {
     final textareaStyle = Styles(
       width: Unit.percent(100),
-      height: Unit.pixels(300),
+      height: Unit.percent(100),
       padding: Spacing.all(Unit.pixels(16)),
       boxSizing: BoxSizing.borderBox,
       border: Border.all(color: Color('#d1d5db')),
@@ -50,7 +50,7 @@ class _HomeState extends State<Home> {
       display: Display.flex,
       flexDirection: FlexDirection.column,
       gap: Gap.all(Unit.pixels(12)),
-      flex: Flex.grow(1),
+      flex: Flex(grow: 1, shrink: 1),
     );
 
     final labelStyle = Styles(

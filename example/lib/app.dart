@@ -11,13 +11,13 @@ class App extends StatelessComponent {
     return div(
       styles: Styles(
         display: Display.flex,
+        width: Unit.percent(100),
         minHeight: Unit.vh(100),
         flexDirection: FlexDirection.column,
         color: Color('#111827'),
         fontFamily: FontFamily('Inter, system-ui, sans-serif'),
         backgroundColor: Color('#f9fafb'),
       ),
-      classes: 'main',
       [
         header(
           styles: Styles(
@@ -48,9 +48,7 @@ class App extends StatelessComponent {
         ),
         div(
           styles: Styles(
-            width: Unit.percent(100),
-            maxWidth: Unit.pixels(1200),
-            padding: Spacing.all(Unit.pixels(32)),
+            width: Unit.percent(80),
             margin: Spacing.symmetric(horizontal: Unit.auto),
             flex: Flex.grow(1),
           ),
