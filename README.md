@@ -170,3 +170,25 @@ final emojiText = '👋 🌍 🚀 🎉 💜';
 final emojiOutput = EmojiRomanizer().romanize(emojiText);
 print('Emoji Romanization: \n$emojiOutput'); // :wave: :earth: :rocket: :party: :💜:
 ```
+
+### Benchmarking
+
+Add your custom romanizer to the benchmark suite in `benchmark/romanize_benchmark.dart` and run the benchmarks. To run benchmarks, use the following command:
+
+```bash
+dart run benchmark_harness:bench --flavor aot --target=benchmark/romanize_benchmark.dart
+```
+
+The results will be logged to the console.
+
+```
+KoreanRomanize(RunTime): 35.53725970192239 us.
+JapaneseRomanize(RunTime): 281.2901698691172 us.
+ChineseRomanize(RunTime): 1736.711451758341 us.
+CyrillicRomanize(RunTime): 59.59739989290177 us.
+ArabicRomanize(RunTime): 52.565961208465495 us.
+MultiLanguageRomanize(RunTime): 184.99707850343984 us.
+LanguageDetection(RunTime): 28.325652046087722 us.
+DirectRomanizer(RunTime): 10321.13 us.
+LongTextRomanize(RunTime): 16493.885245901638 us.
+```
