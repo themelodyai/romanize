@@ -9,7 +9,12 @@ environment:
 
 dependencies:
   # Romanizers
+
+  ## Japanese
+  kuromoji: ^1.0.4
   kana_kit: ^2.1.1
+
+  ## Chinese
   pinyin: ^3.3.0
 
 dev_dependencies:

@@ -32,11 +32,16 @@ export 'src/romanizers/korean.dart';
 class TextRomanizer {
   const TextRomanizer._();
 
+  /// Ensures that all necessary initializations are done.
+  static Future<void> ensureInitialized() async {
+    await JapaneseRomanizer.init();
+  }
+
   /// List of all available romanizers.
   ///
   /// The romanizers are checked in order when auto-detecting the language.
   static final Set<Romanizer> romanizers = <Romanizer>{
-    KoreanRomanizer(),
+    HangulRomanizer(),
     JapaneseRomanizer(),
     ChineseRomanizer(),
     CyrillicRomanizer(),
@@ -80,7 +85,7 @@ class TextRomanizer {
   /// Example:
   /// ```dart
   /// final languages = TextRomanizer.detectLanguages('안녕하세요');
-  /// print(languages); // {KoreanRomanizer()}
+  /// print(languages); // {HangulRomanizer()}
   /// ```
   static Set<Romanizer> detectLanguages(String input) {
     if (input.isEmpty || !RegExp(r'\S').hasMatch(input)) {

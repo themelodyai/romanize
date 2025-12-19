@@ -1,6 +1,7 @@
 import 'package:romanize/romanize.dart';
 
-void main() {
+void main() async {
+  await TextRomanizer.ensureInitialized();
   _korean();
   _japanese();
   _arabic();

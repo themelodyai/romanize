@@ -35,6 +35,11 @@ class JapaneseRomanizeBenchmark extends BenchmarkBase {
 ''';
 
   @override
+  Future<void> setup() async {
+    await JapaneseRomanizer.init();
+  }
+
+  @override
   void run() {
     TextRomanizer.romanize(japaneseText);
   }

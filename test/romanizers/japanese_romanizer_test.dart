@@ -2,8 +2,12 @@ import 'package:romanize/romanize.dart';
 import 'package:test/test.dart';
 
 void main() {
+  setUp(() async {
+    await TextRomanizer.ensureInitialized();
+  });
+
   group('JapaneseRomanizer', () {
-    const romanizer = JapaneseRomanizer();
+    final romanizer = JapaneseRomanizer();
 
     test('should have correct language name', () {
       expect(romanizer.language, equals('japanese'));

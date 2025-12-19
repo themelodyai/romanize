@@ -2,6 +2,10 @@ import 'package:romanize/romanize.dart';
 import 'package:test/test.dart';
 
 void main() {
+  setUp(() async {
+    await TextRomanizer.ensureInitialized();
+  });
+
   group('ArabicRomanizer', () {
     const romanizer = ArabicRomanizer();
 

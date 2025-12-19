@@ -2,8 +2,12 @@ import 'package:romanize/romanize.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('KoreanRomanizer', () {
-    const romanizer = KoreanRomanizer();
+  setUp(() async {
+    await TextRomanizer.ensureInitialized();
+  });
+
+  group('HangulRomanizer', () {
+    const romanizer = HangulRomanizer();
 
     test('should have correct language name', () {
       expect(romanizer.language, equals('korean'));
