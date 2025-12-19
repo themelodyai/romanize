@@ -1,6 +1,7 @@
 import 'package:jaspr/dom.dart';
 import 'package:jaspr/jaspr.dart';
 import 'package:romanize/romanize.dart';
+import 'package:web/web.dart' as web;
 
 class Home extends StatefulComponent {
   const Home({super.key});
@@ -14,6 +15,14 @@ class _HomeState extends State<Home> {
 
   String get _romanized => TextRomanizer.romanize(_text);
 
+  void _syncScroll(web.Event event, String otherId) {
+    final source = event.target as web.HTMLTextAreaElement;
+    final other = web.document.getElementById(otherId) as web.HTMLTextAreaElement?;
+    if (other != null && other.scrollTop != source.scrollTop) {
+      other.scrollTop = source.scrollTop;
+    }
+  }
+
   @override
   Component build(BuildContext context) {
     final textareaStyle = Styles(
@@ -24,14 +33,12 @@ class _HomeState extends State<Home> {
       border: Border.all(color: Color('#d1d5db')),
       radius: BorderRadius.circular(Unit.pixels(25)),
       outline: Outline.unset,
-      // fontFamily: FontFamily.monospace,
       shadow: BoxShadow(
         color: Color.rgba(0, 0, 0, 0.05),
         blur: Unit.pixels(2),
         offsetX: Unit.zero,
         offsetY: Unit.pixels(1),
       ),
-      // resize: Resize.none,
       fontSize: Unit.rem(1),
       backgroundColor: Colors.white,
       raw: {
@@ -41,7 +48,6 @@ class _HomeState extends State<Home> {
 
     final sectionStyle = Styles(
       display: Display.flex,
-      // flexBasis: FlexBasis(Unit.pixels(400)),
       flexDirection: FlexDirection.column,
       gap: Gap.all(Unit.pixels(12)),
       flex: Flex.grow(1),
@@ -65,6 +71,10 @@ class _HomeState extends State<Home> {
         div(styles: sectionStyle, [
           h3(styles: labelStyle, [.text('Input')]),
           textarea(
+            id: 'input-area',
+            events: {
+              'scroll': (e) => _syncScroll(e, 'output-area'),
+            },
             placeholder: 'Type your text here...',
             onInput: (text) => setState(() => _text = text),
             rows: 15,
@@ -77,8 +87,11 @@ class _HomeState extends State<Home> {
         div(styles: sectionStyle, [
           h3(styles: labelStyle, [.text('Output')]),
           textarea(
+            id: 'output-area',
+            events: {
+              'scroll': (e) => _syncScroll(e, 'input-area'),
+            },
             placeholder: 'Type your text here...',
-            // onInput: (text) => setState(() => _text = text), // Readonly, no input needed
             rows: 15,
             readonly: true,
             spellCheck: SpellCheck.isFalse,
@@ -90,7 +103,6 @@ class _HomeState extends State<Home> {
             ),
             [.text(_romanized)],
           ),
-          // p(styles: Styles(whiteSpace: WhiteSpace.preWrap), [.text(_romanized)]),
         ]),
       ],
     );

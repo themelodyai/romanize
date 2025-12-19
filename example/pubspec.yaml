@@ -9,6 +9,7 @@ environment:
 
 dependencies:
   jaspr: ^0.22.0
+  web: ^1.1.1
   romanize:
     path: ../
 
