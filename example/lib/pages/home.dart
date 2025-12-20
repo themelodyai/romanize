@@ -1,6 +1,6 @@
+import 'package:example/main.client.dart';
 import 'package:jaspr/dom.dart';
 import 'package:jaspr/jaspr.dart';
-import 'package:romanize/romanize.dart';
 import 'package:web/web.dart' as web;
 
 class Home extends StatefulComponent {
@@ -12,8 +12,7 @@ class Home extends StatefulComponent {
 
 class _HomeState extends State<Home> {
   String _text = '안녕하세요, 만나서 반갑습니다.';
-
-  String get _romanized => TextRomanizer.romanize(_text);
+  late String _romanized = _text;
 
   void _syncScroll(web.Event event, String otherId) {
     final source = event.target as web.HTMLTextAreaElement;
@@ -76,7 +75,13 @@ class _HomeState extends State<Home> {
               'scroll': (e) => _syncScroll(e, 'output-area'),
             },
             placeholder: 'Type your text here...',
-            onInput: (text) => setState(() => _text = text),
+            onInput: (text) async {
+              setState(() => _text = text);
+              _romanized = await service.convert(text);
+              if (mounted) {
+                setState(() {});
+              }
+            },
             rows: 15,
             required: true,
             spellCheck: SpellCheck.isFalse,
