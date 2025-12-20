@@ -81,7 +81,7 @@ void main() {
         expect(romanizer.romanize('しゅ'), equals('shiyu'));
         expect(romanizer.romanize('ちょ'), equals('cho'));
         expect(romanizer.romanize('にゃ'), equals('nya'));
-        expect(romanizer.romanize('ひょ'), equals('hyo'));
+        expect(romanizer.romanize('ひょ'), equals('hiyo'));
       });
 
       test('should romanize Kanji to Hiragana/Romaji', () {
