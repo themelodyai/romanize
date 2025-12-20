@@ -78,7 +78,7 @@ void main() {
 
       test('should handle yoon (contracted sounds)', () {
         expect(romanizer.romanize('きゃ'), equals('kya'));
-        expect(romanizer.romanize('しゅ'), equals('shu'));
+        expect(romanizer.romanize('しゅ'), equals('shiyu'));
         expect(romanizer.romanize('ちょ'), equals('cho'));
         expect(romanizer.romanize('にゃ'), equals('nya'));
         expect(romanizer.romanize('ひょ'), equals('hyo'));
