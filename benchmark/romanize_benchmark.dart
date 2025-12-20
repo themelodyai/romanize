@@ -208,6 +208,50 @@ class LongTextRomanizeBenchmark extends BenchmarkBase {
   }
 }
 
+class StressTestRomanizeBenchmark extends BenchmarkBase {
+  StressTestRomanizeBenchmark() : super('StressTestRomanize');
+
+  static const stressTestText = '''
+Mixed Script Stress Test:
+-------------------------
+1. CJK Ambiguity (Should detect Chinese vs Japanese context):
+   中文 (Chinese) vs 日本語 (Japanese)
+   你好世界 (Hello World - CN) mixed with こんにちは (Hello - JP)
+   東京 (Tokyo - JP/CN chars) vs 北京 (Beijing - CN)
+   
+2. RTL/LTR Alternation (Arabic/Hebrew/English):
+   English -> العربية -> English -> עִבְרִית -> English
+   Start: مرحبا (Marhaban) -> Middle: שָׁלוֹם (Shalom) -> End.
+   Complex: "The letter 'ا' (Alif) and 'א' (Alef) start alphabets."
+
+3. Diacritic Heavy (Vowelization Stress):
+   Arabic: كَتَبَ الْوَلَدُ الرِّسَالَةَ (Kataba al-waladu ar-risalata)
+   Hebrew: בְּרֵאשִׁית בָּרָא אֱלֹהִים אֵת הַשָּׁמַיִם וְאֵת הָאָרֶץ (Genesis 1:1)
+   
+4. Cyrillic & Extended Latin:
+   Russian: Съешь же ещё этих мягких французских булок, да выпей чаю.
+   Mixed: "Privet (Привет) means Hello."
+
+5. Rapid Switching (Tokenization Stress):
+   KR:안녕하세요_JP:こんにちは_CN:你好_RU:Привет_AR:مرحبا_HE:שָׁלוֹם
+   123٤٥٦(Numbers)abc가나다(Hangul)カキク(Katakana)
+
+6. Long Paragraph (Performance):
+   Lorem ipsum dolor sit amet. 但是，如果我们切换到中文。
+   Then back to English. そして日本語に切り替えます。
+   Suddenly, Cyrillic appears: Внезапно появляется кириллица.
+   Followed by Arabic: ويتبع ذلك العربية.
+   And finally Hebrew: ולבסוף עברית.
+   
+   End of Stress Test.
+''';
+
+  @override
+  void run() {
+    TextRomanizer.romanize(stressTestText);
+  }
+}
+
 void main() async {
   await TextRomanizer.ensureInitialized();
 
@@ -230,4 +274,7 @@ void main() async {
 
   // Long text benchmark
   LongTextRomanizeBenchmark().report();
+
+  // Stress test benchmark
+  StressTestRomanizeBenchmark().report();
 }
