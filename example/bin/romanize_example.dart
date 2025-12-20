@@ -7,6 +7,7 @@ void main() async {
   _arabic();
   _cyrillic();
   _chinese();
+  _hebrew();
   _multiLanguages();
 }
 
@@ -74,6 +75,17 @@ Ain't it poppin' love, poppin' love, poppin' love, yeah
 ''';
   final chineseOutput = TextRomanizer.romanize(chineseText);
   print('Chinese Romanization: \n$chineseOutput');
+}
+
+void _hebrew() {
+  final hebrewText = '''
+בכפוף אירועים אל מלא. ויקי שאלות את אחד. הרוח ויקי אל בדף,
+ ב אחד לערוך ומהימנה. על סדר בלשנות סוציולוגיה, מה מתוך מדריכים קרן. זאת או
+ ברית תרבות פולנית, תיבת חשמל גיאוגרפיה מלא אם. גם ויש מונחים מועמדים גיאוגרפיה,
+ שנתי בארגז על מדע, בהבנה העריכהגירסאות גם שכל. על כדי רביעי לחיבור.
+''';
+  final hebrewOutput = TextRomanizer.romanize(hebrewText);
+  print('Hebrew Romanization: \n$hebrewOutput');
 }
 
 void _multiLanguages() {

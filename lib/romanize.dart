@@ -4,6 +4,7 @@ import 'package:romanize/src/romanize_base.dart';
 import 'package:romanize/src/romanizers/arabic.dart';
 import 'package:romanize/src/romanizers/chinese.dart';
 import 'package:romanize/src/romanizers/cyrillic.dart';
+import 'package:romanize/src/romanizers/hebrew.dart';
 import 'package:romanize/src/romanizers/japanese.dart';
 import 'package:romanize/src/romanizers/korean.dart';
 
@@ -49,6 +50,7 @@ class TextRomanizer {
     ChineseRomanizer(),
     CyrillicRomanizer(),
     ArabicRomanizer(),
+    HebrewRomanizer(),
   };
 
   /// Automatically detects the language of the input text.
@@ -117,6 +119,9 @@ class TextRomanizer {
   /// final result2 = TextRomanizer.romanizeWords('你好世界');
   /// print(result2); // ni hao shi jie
   /// ```
+  ///
+  /// Uses a cache to avoid redundant language detection for repeated words.
+  /// This improves performance for long texts.
   static String romanize(String input) {
     final languages = detectLanguages(input);
     if (languages.length == 1) {

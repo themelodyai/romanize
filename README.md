@@ -101,6 +101,7 @@ This initializes all the necessary resources, such as the Japanese and Chinese d
 - **Chinese** (中文) - Using [`pinyin`](https://pub.dev/packages/pinyin) for Pinyin conversion (Simplified and Traditional)
 - **Cyrillic** (Кириллица) - Custom transliteration for Russian, Ukrainian, Serbian, and more
 - **Arabic** (العربية) - Custom transliteration based on ISO 233 and DIN 31635
+- **Hebrew** (עברית) - Custom transliteration based on ISO 259-2
 
 ## API Reference
 
@@ -110,6 +111,7 @@ Main class for romanizing text.
 
 #### Static Methods
 
+- `ensureInitialized()` - Ensures that all resources are loaded and initialized.
 - `romanize(String input)` - Processes each word separately, auto-detecting and romanizing each word. Perfect for multi-language text.
 - `detectLanguage(String input)` - Detects the first matching language and returns the corresponding `Romanizer`. Returns `EmptyRomanizer` if no match is found.
 - `detectLanguages(String input)` - Detects all matching languages and returns a `Set<Romanizer>`. Returns empty set if no matches are found.
