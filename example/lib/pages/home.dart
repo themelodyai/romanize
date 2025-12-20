@@ -76,7 +76,7 @@ class _HomeState extends State<Home> {
             },
             placeholder: 'Type your text here...',
             onInput: (text) async {
-              setState(() => _text = text);
+              _text = text;
               _romanized = await service.convert(text);
               if (mounted) {
                 setState(() {});

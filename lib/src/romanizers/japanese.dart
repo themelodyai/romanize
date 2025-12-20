@@ -42,7 +42,9 @@ class JapaneseRomanizer extends Romanizer {
       final tokens = _tokenizer!.tokenize(input);
       final buffer = StringBuffer();
       for (final token in tokens) {
-        if (token['reading'] != null && token['reading'].isNotEmpty && token['reading'] != '*') {
+        if (token['reading'] != null &&
+            token['reading'].isNotEmpty &&
+            token['reading'] != '*') {
           buffer.write(token['reading']);
         } else {
           buffer.write(token['surface_form']);
