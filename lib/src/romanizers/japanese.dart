@@ -16,7 +16,7 @@ class JapaneseRomanizer extends Romanizer {
   );
 
   static final _japanesePattern = RegExp(
-    r'[\u3040-\u309F\u30A0-\u30FF\uFF66-\uFF9F\u4E00-\u9FAF]',
+    r'[\u3040-\u309F\u30A0-\u30FF\uFF66-\uFF9F]',
   );
 
   static Tokenizer? _tokenizer;
@@ -37,11 +37,12 @@ class JapaneseRomanizer extends Romanizer {
   /// Otherwise, it will directly romanize the input assuming it's in Kana.
   @override
   String romanize(String input) {
+    if (input.trim().isEmpty) return input;
     if (_tokenizer != null) {
       final tokens = _tokenizer!.tokenize(input);
       final buffer = StringBuffer();
       for (final token in tokens) {
-        if (token['reading'] != null && token['reading'] != '*') {
+        if (token['reading'] != null && token['reading'].isNotEmpty && token['reading'] != '*') {
           buffer.write(token['reading']);
         } else {
           buffer.write(token['surface_form']);
