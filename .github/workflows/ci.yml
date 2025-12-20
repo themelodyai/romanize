@@ -52,6 +52,14 @@ jobs:
       - name: Install dependencies
         run: dart pub get
 
-      - name: Run benchmarks
-        run: dart run benchmark/romanize_benchmark.dart
+      - name: Run benchmarks AOT
+        run: dart run benchmark/romanize_benchmark.dart -f aot
 
+      - name: Run benchmarks JIT
+        run: dart run benchmark/romanize_benchmark.dart -f jit
+
+      - name: Run benchmarks JS
+        run: dart run benchmark/romanize_benchmark.dart -f js
+
+      - name: Run benchmarks WASM
+        run: dart run benchmark/romanize_benchmark.dart -f wasm
