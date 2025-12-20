@@ -39,18 +39,28 @@ class JapaneseRomanizer extends Romanizer {
   String romanize(String input) {
     if (input.trim().isEmpty) return input;
     if (_tokenizer != null) {
-      final tokens = _tokenizer!.tokenize(input);
-      final buffer = StringBuffer();
-      for (final token in tokens) {
-        if (token['reading'] != null &&
-            token['reading'].isNotEmpty &&
-            token['reading'] != '*') {
-          buffer.write(token['reading']);
-        } else {
-          buffer.write(token['surface_form']);
+      try {
+        final tokens = _tokenizer!.tokenize(
+          input
+          // Kurumoji has a problem with full stop "。" characters.
+          // Replace them with "."
+          .replaceAll('。', '.'),
+        );
+        final buffer = StringBuffer();
+        for (final token in tokens) {
+          if (token.isEmpty) continue;
+          if (token['reading'] != null &&
+              token['reading'].isNotEmpty &&
+              token['reading'] != '*') {
+            buffer.write(kanaKit.toRomaji(token['reading']));
+          } else {
+            buffer.write(kanaKit.toRomaji(token['surface_form']));
+          }
         }
+        return buffer.toString();
+      } catch (_) {
+        // Fallback to direct romanization if tokenization fails
       }
-      return kanaKit.toRomaji(buffer.toString());
     }
     return kanaKit.toRomaji(input);
   }

@@ -48,14 +48,15 @@ class TextRomanizer {
   static final Set<Romanizer> romanizers = <Romanizer>{
     HangulRomanizer(),
 
+    CyrillicRomanizer(),
+    ArabicRomanizer(),
+    HebrewRomanizer(),
+
     // Note: Chinese is placed before Japanese. Pure Kanji (e.g., "東京") will
     // default to Chinese. Mixed Japanese (Kanji + Kana) will be rejected by
     // ChineseRomanizer.isValid and fall through to JapaneseRomanizer.
     ChineseRomanizer(),
     JapaneseRomanizer(),
-    CyrillicRomanizer(),
-    ArabicRomanizer(),
-    HebrewRomanizer(),
   };
 
   /// Automatically detects the language of the input text.
@@ -75,7 +76,7 @@ class TextRomanizer {
     final String input, [
     Set<Romanizer>? romanizers,
   ]) {
-    if (input.isEmpty || !RegExp(r'\S').hasMatch(input)) {
+    if (input.isEmpty) {
       return const EmptyRomanizer();
     }
 
@@ -108,7 +109,7 @@ class TextRomanizer {
     return romanizers.where((romanizer) => romanizer.isValid(input)).toSet();
   }
 
-  static final _separatorPattern = RegExp(r'[\s\p{P}_]+');
+  static final _separatorPattern = RegExp(r'[\s\p{P}_()]+');
 
   /// Romanizes the input text by processing each word separately.
   ///
@@ -135,7 +136,7 @@ class TextRomanizer {
     if (languages.length == 1) {
       return languages.first.romanize(input);
     }
-    final wordCache = <String, Romanizer>{};
+    final wordCache = <String, String>{};
 
     return input.splitMapJoin(
       _separatorPattern,
@@ -144,13 +145,15 @@ class TextRomanizer {
       // Handle the content (words):
       onNonMatch: (String word) {
         if (word.isEmpty) return '';
-
-        final romanizer = wordCache.putIfAbsent(
+        return wordCache.putIfAbsent(
           word,
-          () => detectLanguage(word, languages),
+          () => detectLanguage(
+            word,
+            // [detectLanguages] may not return all languages in the set, so
+            // check for all languages.
+            // languages,
+          ).romanize(word),
         );
-
-        return romanizer.romanize(word);
       },
     );
   }

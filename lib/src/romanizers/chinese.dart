@@ -76,7 +76,9 @@ class ChineseRomanizer extends Romanizer {
     return buffer.toString();
   }
 
-  static final _kanaPattern = RegExp(r'[\u3040-\u309F\u30A0-\u30FF]');
+  static final _kanaPattern = RegExp(
+    r'[\u3040-\u309F\u30A0-\u30FF\uFF66-\uFF9F]',
+  );
 
   /// Validates if the input string contains Chinese characters.
   ///

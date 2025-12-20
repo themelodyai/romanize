@@ -89,70 +89,38 @@ void _hebrew() {
 }
 
 void _multiLanguages() {
-  // from home nct u
-  final multiLanguagesText = '''
-Ooh, yeah-yeah-yeah
-I remember like it's yesterday, oh-no
-외로움에 힘들던 그때 oh-ooh
-낯설기만 하던 이 공기도
-두렵기만 하던 이 떨림도
-Now I know
-그 어렸던 마음까지 모두
-추억이 되게 해준 너
-Cause of us I'm feeling strong again
-서로 믿어줄 때면
-이곳에 날 당연하게 해
-When we shine bright
-I'm alive in the CT 날 노래해
-이 조명 아래 서로를 바라보면
-나도 몰래 웃게 돼 다 잊게 돼 yeah
-Cause I'm not alone
-내게 따듯한 집이 돼준 너
-어제와 지금의 나 또 다가올 내일 우리
-It all starts from home
-彩虹是和你再见的誓言
-飘过初雪到仲夏的夜
-直到和你眼神交会
-拥抱让我遗落寂寞 ooh
-随时能和你连结 为你回应
-見つけたよ ココロが安らぐ
-My home, my own (My own)
-映照着自己 感受到笑意都一往如初
-Once again (Ooh)
-僕ら強くなれる
-活成彼此的阳光
-我的存在自然而耀眼
-When we shine bright
-I'm alive in the CT 날 노래해
-이 조명 아래 서로를 바라보면
-나도 몰래 웃게 돼 다 잊게 돼 yeah
-Cause I'm not alone
-내게 따듯한 집이 돼준 너
-어제와 지금의 나 또 다가올 내일 우리
-It all starts from home
-이젠 길을 잃을 두려움도
-겁내기 바빴던 날들도
-Now It's all gone and I
-Found a reason to be myself
-Know that you are not alone anymore
-When we shine bright
-I'm alive in the CT 날 노래해
-이 조명 아래 서로를 바라보면
-나도 몰래 웃게 돼 다 잊게 돼 yeah
-Cause I'm not alone
-내게 따듯한 집이 돼준 너 (어제와 지금의 나)
-어제와 지금의 나 또 다가올 내일 우리
-It all starts from home
-Na-na-na, na-na-na, na-na-na
-From home (From home)
-Na-na-na, na-na-na, from home
-Yeah-yeah-yeah
-Na-na-na (Na-na-na)
-Na-na-na (Na-na-na)
-Na-na-na
-From home
-And we start from here our home
-''';
+  final multiLanguagesText = '''Mixed Script Stress Test:
+-------------------------
+1. CJK Ambiguity (Should detect Chinese vs Japanese context):
+   中文 (Chinese) vs 日本語 (Japanese)
+   你好世界 (Hello World - CN) mixed with こんにちは (Hello - JP)
+   東京 (Tokyo - JP/CN chars) vs 北京 (Beijing - CN)
+   
+2. RTL/LTR Alternation (Arabic/Hebrew/English):
+   English -> العربية -> English -> עִבְרִית -> English
+   Start: مرحبا (Marhaban) -> Middle: שָׁלוֹם (Shalom) -> End.
+   Complex: "The letter 'ا' (Alif) and 'א' (Alef) start alphabets."
+
+3. Diacritic Heavy (Vowelization Stress):
+   Arabic: كَتَبَ الْوَلَدُ الرِّسَالَةَ (Kataba al-waladu ar-risalata)
+   Hebrew: בְּרֵאשִׁית בָּרָא אֱלֹהִים אֵת הַשָּׁמַיִם וְאֵת הָאָרֶץ (Genesis 1:1)
+   
+4. Cyrillic & Extended Latin:
+   Russian: Съешь же ещё этих мягких французских булок, да выпей чаю.
+   Mixed: "Privet (Привет) means Hello."
+
+5. Rapid Switching (Tokenization Stress):
+   KR:안녕하세요_JP:こんにちは_CN:你好_RU:Привет_AR:مرحبا_HE:שָׁלוֹם
+   123٤٥٦(Numbers)abc가나다(Hangul)カキク(Katakana)
+
+6. Long Paragraph (Performance):
+   Lorem ipsum dolor sit amet. 但是，如果我们切换到中文。
+   Then back to English. そして日本語に切り替えます。
+   Suddenly, Cyrillic appears: Внезапно появляется кириллица.
+   Followed by Arabic: ويتبع ذلك العربية.
+   And finally Hebrew: ולבסוף עברית.
+   
+   End of Stress Test.''';
   final multiLanguagesOutput = TextRomanizer.romanize(multiLanguagesText);
   print('Multi Languages Romanization: \n$multiLanguagesOutput');
 }
