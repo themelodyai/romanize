@@ -47,6 +47,10 @@ class TextRomanizer {
   /// The romanizers are checked in order when auto-detecting the language.
   static final Set<Romanizer> romanizers = <Romanizer>{
     HangulRomanizer(),
+
+    // Note: Chinese is placed before Japanese. Pure Kanji (e.g., "東京") will
+    // default to Chinese. Mixed Japanese (Kanji + Kana) will be rejected by
+    // ChineseRomanizer.isValid and fall through to JapaneseRomanizer.
     ChineseRomanizer(),
     JapaneseRomanizer(),
     CyrillicRomanizer(),
@@ -67,7 +71,10 @@ class TextRomanizer {
   /// final romanizer = TextRomanizer.detectLanguage('안녕하세요');
   /// print(romanizer.language); // korean
   /// ```
-  static Romanizer detectLanguage(String input, [Set<Romanizer>? romanizers]) {
+  static Romanizer detectLanguage(
+    final String input, [
+    Set<Romanizer>? romanizers,
+  ]) {
     if (input.isEmpty || !RegExp(r'\S').hasMatch(input)) {
       return const EmptyRomanizer();
     }
@@ -101,7 +108,7 @@ class TextRomanizer {
     return romanizers.where((romanizer) => romanizer.isValid(input)).toSet();
   }
 
-  static final _separatorPattern = RegExp(r'[\s\p{P}]+');
+  static final _separatorPattern = RegExp(r'[\s\p{P}_]+');
 
   /// Romanizes the input text by processing each word separately.
   ///

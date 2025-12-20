@@ -2,6 +2,10 @@ import 'package:romanize/romanize.dart';
 import 'package:test/test.dart';
 
 void main() {
+  setUp(() async {
+    await TextRomanizer.ensureInitialized();
+  });
+
   group('TextRomanizer', () {
     group('romanize', () {
       test('should auto-detect and romanize Korean text', () {
@@ -346,6 +350,36 @@ void main() {
         const input = '안녕하세요';
         final languages = TextRomanizer.detectLanguages(input);
         expect(languages.length, equals(languages.toSet().length));
+      });
+
+      test(
+        'should correctly identify mixed Japanese (Kanji + Kana) vs Chinese',
+        () {
+          // "This is Japanese" (contains Kanji '日本' and Hiragana 'これは...です')
+          const japaneseInput = 'これは日本語です';
+          final jpResult = TextRomanizer.romanize(japaneseInput);
+          // Should detect as Japanese and output "korehanihongodesu" (or similar)
+          // If it detected Chinese, it would output Pinyin for the Kanji parts.
+          expect(jpResult, contains('nihongo'));
+
+          // "This is Chinese" (Pure Kanji)
+          const chineseInput = '这是中文';
+          final cnResult = TextRomanizer.romanize(chineseInput);
+          expect(cnResult, contains('zhōng'));
+        },
+      );
+
+      test('should split and romanize tokens separated by underscores', () {
+        final japaneseRomanizer = JapaneseRomanizer();
+        final japaneseInput = 'こんにちは';
+
+        final koreanRomanizer = HangulRomanizer();
+        final koreanInput = '안녕하세요';
+
+        final input = 'KR:${koreanInput}_JP:$japaneseInput';
+        final result = TextRomanizer.romanize(input);
+        expect(result, contains(japaneseRomanizer.romanize(japaneseInput)));
+        expect(result, contains(koreanRomanizer.romanize(koreanInput)));
       });
     });
 

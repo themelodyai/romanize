@@ -76,12 +76,9 @@ class ChineseRomanizer extends Romanizer {
     return buffer.toString();
   }
 
+  static final _kanaPattern = RegExp(r'[\u3040-\u309F\u30A0-\u30FF]');
+
   /// Validates if the input string contains Chinese characters.
-  ///
-  /// Returns `true` if the input contains any Chinese characters from
-  /// the Unicode CJK (Chinese, Japanese, Korean) blocks. Note that this
-  /// will also match Japanese Kanji and Korean Hanja, but the romanization
-  /// will use Pinyin pronunciation.
   ///
   /// Example:
   /// ```dart
@@ -90,8 +87,18 @@ class ChineseRomanizer extends Romanizer {
   /// print(romanizer.isValid('Hello')); // false
   /// print(romanizer.isValid('你好 Hello')); // true (mixed content)
   /// ```
+  ///
+  /// Returns `true` if the input contains Chinese characters AND does not
+  /// contain Japanese Kana. This helps avoid falsely identifying mixed
+  /// Japanese text (Kanji + Kana) as Chinese.
   @override
   bool isValid(String input) {
+    // If it contains Kana (Hiragana/Katakana), it is likely Japanese,
+    // even if it also contains Kanji (which containsChinese checks for).
+    if (_kanaPattern.hasMatch(input)) {
+      return false;
+    }
+
     return ChineseHelper.containsChinese(input);
   }
 }
