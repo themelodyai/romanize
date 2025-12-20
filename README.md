@@ -9,16 +9,10 @@ A powerful Dart package for seamlessly converting multilingual text into its Rom
 
 ## Installation
 
-Add `romanize` to your `pubspec.yaml`:
+Add `romanize` to your `pubspec.yaml` dependencies:
 
 ```yaml
-dependencies:
-  romanize: ^0.0.1
-```
-
-Then run:
-
-```bash
+dart pub add romanize
 dart pub get
 ```
 
