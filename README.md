@@ -84,10 +84,20 @@ print(chineseRomanizer.romanize(chineseText)); // nǐ hǎo
 
 Some romanizers have additional options. For example, the `ChineseRomanizer` has the `toneAnnotation` option to specify the tone annotation to use.
 
+### Load resources
+
+Pre initialize the resources:
+
+```dart
+await TextRomanizer.ensureInitialized();
+```
+
+This initializes all the necessary resources, such as the Japanese and Chinese dictionaries. This operation is expensive and should be done, preferably, on another isolate. On the web platform, prefer server side initialization. 
+
 ## Supported Languages
 
 - **Korean** (한국어)
-- **Japanese** (日本語) - Using [`kana_kit`](https://pub.dev/packages/kana_kit) for Kana conversion
+- **Japanese** (日本語) - Using [`kuromoji`](https://pub.dev/packages/kuromoji) for Kanji conversion and [`kana_kit`](https://pub.dev/packages/kana_kit) for Kana and Katakana conversion
 - **Chinese** (中文) - Using [`pinyin`](https://pub.dev/packages/pinyin) for Pinyin conversion (Simplified and Traditional)
 - **Cyrillic** (Кириллица) - Custom transliteration for Russian, Ukrainian, Serbian, and more
 - **Arabic** (العربية) - Custom transliteration based on ISO 233 and DIN 31635

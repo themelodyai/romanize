@@ -33,6 +33,9 @@ class TextRomanizer {
   const TextRomanizer._();
 
   /// Ensures that all necessary initializations are done.
+  ///
+  /// This method is expensive and should be called on another thread if
+  /// possible.
   static Future<void> ensureInitialized() async {
     await JapaneseRomanizer.init();
   }
