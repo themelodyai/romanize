@@ -7,6 +7,9 @@ issue_tracker: https://github.com/themelodyai/romanize/issues
 environment:
   sdk: ^3.8.0
 
+funding:
+  - https://github.com/sponsors/bdlukaa
+
 dependencies:
   # Romanizers
 
