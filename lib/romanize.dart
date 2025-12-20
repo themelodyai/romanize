@@ -12,6 +12,7 @@ export 'src/romanize_base.dart';
 export 'src/romanizers/arabic.dart';
 export 'src/romanizers/chinese.dart';
 export 'src/romanizers/cyrillic.dart';
+export 'src/romanizers/hebrew.dart';
 export 'src/romanizers/japanese.dart';
 export 'src/romanizers/korean.dart';
 

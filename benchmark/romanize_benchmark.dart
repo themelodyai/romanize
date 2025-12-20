@@ -18,7 +18,8 @@ class KoreanRomanizeBenchmark extends BenchmarkBase {
 
   @override
   void run() {
-    TextRomanizer.romanize(koreanText);
+    // Use longer text for more accurate measurement
+    TextRomanizer.romanize(koreanTextLong);
   }
 }
 
@@ -35,13 +36,8 @@ class JapaneseRomanizeBenchmark extends BenchmarkBase {
 ''';
 
   @override
-  Future<void> setup() async {
-    await JapaneseRomanizer.init();
-  }
-
-  @override
   void run() {
-    TextRomanizer.romanize(japaneseText);
+    TextRomanizer.romanize(japaneseTextLong);
   }
 }
 
@@ -59,7 +55,7 @@ class ChineseRomanizeBenchmark extends BenchmarkBase {
 
   @override
   void run() {
-    TextRomanizer.romanize(chineseText);
+    TextRomanizer.romanize(chineseTextLong);
   }
 }
 
@@ -77,7 +73,7 @@ class CyrillicRomanizeBenchmark extends BenchmarkBase {
 
   @override
   void run() {
-    TextRomanizer.romanize(cyrillicText);
+    TextRomanizer.romanize(cyrillicTextLong);
   }
 }
 
@@ -95,7 +91,25 @@ class ArabicRomanizeBenchmark extends BenchmarkBase {
 
   @override
   void run() {
-    TextRomanizer.romanize(arabicText);
+    TextRomanizer.romanize(arabicTextLong);
+  }
+}
+
+/// Benchmark for Hebrew romanization
+class HebrewRomanizeBenchmark extends BenchmarkBase {
+  HebrewRomanizeBenchmark() : super('HebrewRomanize');
+
+  static const hebrewText = 'שָׁלוֹם עוֹלָם מַה שְּׁלוֹמְכֶם';
+  static const hebrewTextLong = '''
+שָׁלוֹם עוֹלָם מַה שְּׁלוֹמְכֶם
+הַיּוֹם יוֹם יָפֶה
+בְּדִיקַת בִּיצוּעִים שֶׁל הֲמָרַת טֶקְסְט עִבְרִי לְאוֹתִיּוֹת לָטִינִיּוֹת
+זֶהוּ בִּיצוּעַ בְּדִיקָה עִם טֶקְסְט אָרוֹךְ יוֹתֵר
+''';
+
+  @override
+  void run() {
+    TextRomanizer.romanize(hebrewTextLong);
   }
 }
 
@@ -103,16 +117,16 @@ class ArabicRomanizeBenchmark extends BenchmarkBase {
 class MultiLanguageRomanizeBenchmark extends BenchmarkBase {
   MultiLanguageRomanizeBenchmark() : super('MultiLanguageRomanize');
 
-  static const multiLanguageText = '안녕 Hello こんにちは 你好 Привет مرحبا';
+  static const multiLanguageText = '안녕 Hello こんにちは 你好 Привет مرحبا שָׁלוֹם';
   static const multiLanguageTextLong = '''
-안녕하세요 Hello こんにちは 你好世界 Привет мир مرحبا بكم
-Korean English Japanese Chinese Cyrillic Arabic
-한국어 영어 日本語 中文 Кириллица العربية
+안녕하세요 Hello こんにちは 你好世界 Привет мир مرحبا بكم שָׁלוֹם עוֹלָם
+Korean English Japanese Chinese Cyrillic Arabic Hebrew
+한국어 영어 日本語 中文 Кириллица العربية עִבְרִית
 ''';
 
   @override
   void run() {
-    TextRomanizer.romanize(multiLanguageText);
+    TextRomanizer.romanize(multiLanguageTextLong);
   }
 }
 
@@ -120,7 +134,14 @@ Korean English Japanese Chinese Cyrillic Arabic
 class LanguageDetectionBenchmark extends BenchmarkBase {
   LanguageDetectionBenchmark() : super('LanguageDetection');
 
-  static const testTexts = ['안녕하세요', 'こんにちは', '你好', 'Привет', 'مرحبا'];
+  static const testTexts = [
+    '안녕하세요',
+    'こんにちは',
+    '你好',
+    'Привет',
+    'مرحبا',
+    'שָׁלוֹם',
+  ];
 
   @override
   void run() {
@@ -139,6 +160,7 @@ class DirectRomanizerBenchmark extends BenchmarkBase {
   late final ChineseRomanizer chineseRomanizer;
   late final CyrillicRomanizer cyrillicRomanizer;
   late final ArabicRomanizer arabicRomanizer;
+  late final HebrewRomanizer hebrewRomanizer;
 
   @override
   void setup() {
@@ -147,6 +169,7 @@ class DirectRomanizerBenchmark extends BenchmarkBase {
     chineseRomanizer = ChineseRomanizer();
     cyrillicRomanizer = CyrillicRomanizer();
     arabicRomanizer = ArabicRomanizer();
+    hebrewRomanizer = HebrewRomanizer();
   }
 
   @override
@@ -156,6 +179,7 @@ class DirectRomanizerBenchmark extends BenchmarkBase {
     chineseRomanizer.romanize(ChineseRomanizeBenchmark.chineseTextLong);
     cyrillicRomanizer.romanize(CyrillicRomanizeBenchmark.cyrillicTextLong);
     arabicRomanizer.romanize(ArabicRomanizeBenchmark.arabicTextLong);
+    hebrewRomanizer.romanize(HebrewRomanizeBenchmark.hebrewTextLong);
   }
 }
 
@@ -174,6 +198,8 @@ class LongTextRomanizeBenchmark extends BenchmarkBase {
 Измерение производительности преобразования кириллического текста в латиницу
 أنا العربي مرحبا بكم جميعا اليوم الطقس جميل
 قياس أداء تحويل النص العربي إلى الحروف اللاتينية
+שָׁלוֹם עוֹלָם מַה שְּׁלוֹמְכֶם הַיּוֹם יוֹם יָפֶה
+בְּדִיקַת בִּיצוּעִים שֶׁל הֲמָרַת טֶקְסְט עִבְרִי לְאוֹתִיּוֹת לָטִינִיּוֹת
 ''';
 
   @override
@@ -182,13 +208,16 @@ class LongTextRomanizeBenchmark extends BenchmarkBase {
   }
 }
 
-void main() {
+void main() async {
+  await TextRomanizer.ensureInitialized();
+
   // Individual language benchmarks
   KoreanRomanizeBenchmark().report();
   JapaneseRomanizeBenchmark().report();
   ChineseRomanizeBenchmark().report();
   CyrillicRomanizeBenchmark().report();
   ArabicRomanizeBenchmark().report();
+  HebrewRomanizeBenchmark().report();
 
   // Multi-language benchmark
   MultiLanguageRomanizeBenchmark().report();
