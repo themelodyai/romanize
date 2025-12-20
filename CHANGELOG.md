@@ -1,4 +1,4 @@
-## [next]
+## 0.0.2
 
 - Japanese Kanji support added using [`kuromoji`](https://pub.dev/packages/kuromoji).
 - Hebrew romanization support added based on ISO 259 / DIN 31636.

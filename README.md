@@ -2,7 +2,7 @@ A powerful Dart package for seamlessly converting multilingual text into its Rom
 
 ## Features
 
-- 🌏 **Multi-language support**: Korean, Japanese, Chinese, Cyrillic, and Arabic
+- 🌏 **Multi-language support**: Korean, Japanese, Chinese, Cyrillic, Hebrew and Arabic
 - 🔍 **Auto-detection**: Automatically detects the languages present in the input text
 - 🛠️ **Flexible & extensible**: Easily create your own custom romanizer for any language or writing system
 - 📦 **Lightweight**: Minimal dependencies, fast performance
@@ -194,13 +194,14 @@ dart run benchmark_harness:bench --flavor aot --target=benchmark/romanize_benchm
 The results will be logged to the console.
 
 ```
-KoreanRomanize(RunTime): 35.53725970192239 us.
-JapaneseRomanize(RunTime): 281.2901698691172 us.
-ChineseRomanize(RunTime): 1736.711451758341 us.
-CyrillicRomanize(RunTime): 59.59739989290177 us.
-ArabicRomanize(RunTime): 52.565961208465495 us.
-MultiLanguageRomanize(RunTime): 184.99707850343984 us.
-LanguageDetection(RunTime): 28.325652046087722 us.
-DirectRomanizer(RunTime): 10321.13 us.
-LongTextRomanize(RunTime): 16493.885245901638 us.
+KoreanRomanize(RunTime): 141.92337494619028 us.
+JapaneseRomanize(RunTime): 15999.04132231405 us.
+ChineseRomanize(RunTime): 5923.219780219781 us.
+CyrillicRomanize(RunTime): 339.5049698260561 us.
+ArabicRomanize(RunTime): 219.66374012291485 us.
+HebrewRomanize(RunTime): 541.422 us.
+MultiLanguageRomanize(RunTime): 770.36225 us.
+LanguageDetection(RunTime): 46.14784148669472 us.
+DirectRomanizer(RunTime): 15284.26119402985 us.
+LongTextRomanize(RunTime): 30877.984848484848 us.
 ```

@@ -21,11 +21,5 @@ dev_dependencies:
   lints: ^5.0.0
   isolate_manager_generator: ^0.3.0
 
-dependency_overrides:
-  kuromoji:
-    git:
-      url: https://github.com/bdlukaa/kuromoji
-      ref: web-support
-
 jaspr:
   mode: client
