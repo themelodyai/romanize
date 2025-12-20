@@ -46,8 +46,8 @@ class TextRomanizer {
   /// The romanizers are checked in order when auto-detecting the language.
   static final Set<Romanizer> romanizers = <Romanizer>{
     HangulRomanizer(),
-    JapaneseRomanizer(),
     ChineseRomanizer(),
+    JapaneseRomanizer(),
     CyrillicRomanizer(),
     ArabicRomanizer(),
     HebrewRomanizer(),

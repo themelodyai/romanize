@@ -16,7 +16,7 @@ class JapaneseRomanizer extends Romanizer {
   );
 
   static final _japanesePattern = RegExp(
-    r'[\u3040-\u309F\u30A0-\u30FF\uFF66-\uFF9F]',
+    r'[\u3040-\u309F\u30A0-\u30FF\uFF66-\uFF9F\u4E00-\u9FAF]',
   );
 
   static Tokenizer? _tokenizer;

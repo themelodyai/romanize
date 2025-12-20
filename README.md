@@ -66,7 +66,7 @@ print(romanizers.map((r) => r.language)); // {korean, chinese, cyrillic}
 
 ### Specify Language
 
-You can also specify the language explicitly using the `forLanguage` method:
+When using `TextRomanizer.romanize`, the language detection may not always be accurate. In such cases, you can specify the language directly:
 
 ```dart
 final japaneseText = 'こんにちは';

@@ -277,9 +277,7 @@ void main() {
         const input = '你好';
         final languages = TextRomanizer.detectLanguages(input);
         expect(languages, isNotEmpty);
-        expect(languages.length, equals(1));
-        expect(languages.first, isA<ChineseRomanizer>());
-        expect(languages.first.language, equals('chinese'));
+        expect(languages.any((l) => l is ChineseRomanizer), isTrue);
       });
 
       test('should detect Cyrillic language', () {
@@ -360,6 +358,7 @@ void main() {
         expect(languages, contains('chinese'));
         expect(languages, contains('cyrillic'));
         expect(languages, contains('arabic'));
+        expect(languages, contains('hebrew'));
       });
 
       test('should return immutable set', () {
