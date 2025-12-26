@@ -13,13 +13,32 @@ class Home extends StatefulComponent {
 
 class _HomeState extends State<Home> {
   String _text = '안녕하세요, 만나서 반갑습니다.';
-  late String _romanized = TextRomanizer.romanize(_text);
+  late List<RomanizedText> _romanized = TextRomanizer.analyze(_text);
 
   void _syncScroll(web.Event event, String otherId) {
-    final source = event.target as web.HTMLTextAreaElement;
-    final other = web.document.getElementById(otherId) as web.HTMLTextAreaElement?;
-    if (other != null && other.scrollTop != source.scrollTop) {
+    final source = event.target as web.HTMLElement;
+    final other = web.document.getElementById(otherId) as web.HTMLElement?;
+    if (other != null) {
       other.scrollTop = source.scrollTop;
+    }
+  }
+
+  Color _getColorForLanguage(String languageCode) {
+    switch (languageCode) {
+      case 'korean':
+        return Color('#3B82F6'); // Blue
+      case 'japanese':
+        return Color('#EF4444'); // Red
+      case 'chinese':
+        return Color('#F59E0B'); // Amber
+      case 'arabic':
+        return Color('#10B981'); // Green
+      case 'hebrew':
+        return Color('#EC4899'); // Pink
+      case 'cyrillic':
+        return Color('#8B5CF6'); // Purple
+      default:
+        return Color('#6B7280'); // Neutral Gray
     }
   }
 
@@ -27,7 +46,7 @@ class _HomeState extends State<Home> {
   Component build(BuildContext context) {
     final textareaStyle = Styles(
       width: Unit.percent(100),
-      height: Unit.percent(100),
+      height: Unit.vh(60),
       padding: Spacing.all(Unit.pixels(16)),
       boxSizing: BoxSizing.borderBox,
       border: Border.all(color: Color('#d1d5db')),
@@ -39,7 +58,9 @@ class _HomeState extends State<Home> {
         offsetX: Unit.zero,
         offsetY: Unit.pixels(1),
       ),
+      fontFamily: FontFamily('inherit'),
       fontSize: Unit.rem(1),
+      lineHeight: Unit.rem(1.5),
       backgroundColor: Colors.white,
       raw: {
         'resize': 'none',
@@ -48,9 +69,11 @@ class _HomeState extends State<Home> {
 
     final sectionStyle = Styles(
       display: Display.flex,
+      height: Unit.percent(70),
+      minWidth: Unit.pixels(300),
       flexDirection: FlexDirection.column,
       gap: Gap.all(Unit.pixels(12)),
-      flex: Flex(grow: 1, shrink: 1),
+      flex: Flex(grow: 1, shrink: 0, basis: Unit.pixels(400)),
     );
 
     final labelStyle = Styles(
@@ -79,35 +102,42 @@ class _HomeState extends State<Home> {
             onInput: (text) async {
               _text = text;
               _romanized = await service.convert(text);
-              if (mounted) {
-                setState(() {});
-              }
+              if (mounted) setState(() {});
             },
-            rows: 15,
             required: true,
             spellCheck: SpellCheck.isFalse,
-            styles: textareaStyle,
+            styles: textareaStyle.combine(
+              Styles(raw: {'resize': 'none'}),
+            ),
             [.text(_text)],
           ),
         ]),
         div(styles: sectionStyle, [
           h3(styles: labelStyle, [.text('Output')]),
-          textarea(
+          div(
             id: 'output-area',
             events: {
               'scroll': (e) => _syncScroll(e, 'input-area'),
             },
-            placeholder: 'Type your text here...',
-            rows: 15,
-            readonly: true,
-            spellCheck: SpellCheck.isFalse,
             styles: textareaStyle.combine(
               Styles(
-                color: Color('#4b5563'),
+                overflow: Overflow.auto,
+                whiteSpace: WhiteSpace.preWrap,
                 backgroundColor: Color('#f9fafb'),
+                raw: {
+                  'word-break': 'break-word',
+                },
               ),
             ),
-            [.text(_romanized)],
+            _romanized.map((item) {
+              return span(
+                styles: Styles(
+                  color: _getColorForLanguage(item.language),
+                  fontWeight: FontWeight.w500,
+                ),
+                [.text(item.romanizedText)],
+              );
+            }).toList(),
           ),
         ]),
       ],
