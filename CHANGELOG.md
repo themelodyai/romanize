@@ -1,4 +1,4 @@
-## [next]
+## 0.0.3
 
 - `TextRomanizer.analyze`, which analyzes the input text and provides detailed information about detected languages and romanization results for each segment.
 

@@ -1,4 +1,10 @@
+[![pub package](https://img.shields.io/pub/v/romanize.svg)](https://pub.dev/packages/romanize)
+[![Live Demo](https://img.shields.io/badge/demo-online-green.svg)](https://themelodyai.github.io/romanize/)
+[![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/bdlukaa)
+
 A powerful Dart package for seamlessly converting multilingual text into its Romanized form.
+
+**[Try the Live Demo](https://themelodyai.github.io/romanize/)**
 
 ## Features
 
@@ -188,14 +194,15 @@ dart run benchmark_harness:bench --flavor aot --target=benchmark/romanize_benchm
 The results will be logged to the console.
 
 ```
-KoreanRomanize(RunTime): 141.92337494619028 us.
-JapaneseRomanize(RunTime): 15999.04132231405 us.
-ChineseRomanize(RunTime): 5923.219780219781 us.
-CyrillicRomanize(RunTime): 339.5049698260561 us.
-ArabicRomanize(RunTime): 219.66374012291485 us.
-HebrewRomanize(RunTime): 541.422 us.
-MultiLanguageRomanize(RunTime): 770.36225 us.
-LanguageDetection(RunTime): 46.14784148669472 us.
-DirectRomanizer(RunTime): 15284.26119402985 us.
-LongTextRomanize(RunTime): 30877.984848484848 us.
+KoreanRomanize(RunTime): 149.55134011433663 us.
+JapaneseRomanize(RunTime): 3528.963286713287 us.
+ChineseRomanize(RunTime): 6650.877133105802 us.
+CyrillicRomanize(RunTime): 332.25094868833526 us.
+ArabicRomanize(RunTime): 222.99420225220203 us.
+HebrewRomanize(RunTime): 548.14425 us.
+MultiLanguageRomanize(RunTime): 2852.415 us.
+LanguageDetection(RunTime): 10.955939698271358 us.
+DirectRomanizer(RunTime): 10337.76 us.
+LongTextRomanize(RunTime): 24233.97619047619 us.
+StressTestRomanize(RunTime): 18138.834782608697 us.
 ```
