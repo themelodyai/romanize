@@ -1,4 +1,5 @@
 import 'package:example/main.client.dart';
+import 'package:example/main.dart';
 import 'package:jaspr/dom.dart';
 import 'package:jaspr/jaspr.dart';
 import 'package:romanize/romanize.dart';
@@ -12,8 +13,8 @@ class Home extends StatefulComponent {
 }
 
 class _HomeState extends State<Home> {
-  String _text = '안녕하세요, 만나서 반갑습니다.';
-  late List<RomanizedText> _romanized = TextRomanizer.analyze(_text);
+  String _text = multiLanguagesText;
+  late Future<List<RomanizedText>> _romanized = service.convert(_text);
 
   void _syncScroll(web.Event event, String otherId) {
     final source = event.target as web.HTMLElement;
@@ -70,10 +71,10 @@ class _HomeState extends State<Home> {
     final sectionStyle = Styles(
       display: Display.flex,
       height: Unit.percent(70),
-      minWidth: Unit.pixels(300),
+      minWidth: Unit.pixels(200),
       flexDirection: FlexDirection.column,
       gap: Gap.all(Unit.pixels(12)),
-      flex: Flex(grow: 1, shrink: 0, basis: Unit.pixels(400)),
+      flex: Flex(grow: 1, shrink: 0, basis: Unit.pixels(200)),
     );
 
     final labelStyle = Styles(
@@ -100,9 +101,10 @@ class _HomeState extends State<Home> {
             },
             placeholder: 'Type your text here...',
             onInput: (text) async {
-              _text = text;
-              _romanized = await service.convert(text);
-              if (mounted) setState(() {});
+              setState(() {
+                _text = text;
+                _romanized = service.convert(text);
+              });
             },
             required: true,
             spellCheck: SpellCheck.isFalse,
@@ -114,30 +116,39 @@ class _HomeState extends State<Home> {
         ]),
         div(styles: sectionStyle, [
           h3(styles: labelStyle, [.text('Output')]),
-          div(
-            id: 'output-area',
-            events: {
-              'scroll': (e) => _syncScroll(e, 'input-area'),
-            },
-            styles: textareaStyle.combine(
-              Styles(
-                overflow: Overflow.auto,
-                whiteSpace: WhiteSpace.preWrap,
-                backgroundColor: Color('#f9fafb'),
-                raw: {
-                  'word-break': 'break-word',
+          FutureBuilder<List<RomanizedText>>(
+            future: _romanized,
+            builder: (context, snapshot) {
+              return div(
+                id: 'output-area',
+                events: {
+                  'scroll': (e) => _syncScroll(e, 'input-area'),
                 },
-              ),
-            ),
-            _romanized.map((item) {
-              return span(
-                styles: Styles(
-                  color: _getColorForLanguage(item.language),
-                  fontWeight: FontWeight.w500,
+                styles: textareaStyle.combine(
+                  Styles(
+                    overflow: Overflow.auto,
+                    whiteSpace: WhiteSpace.preWrap,
+                    backgroundColor: Color('#f9fafb'),
+                    raw: {
+                      'word-break': 'break-word',
+                    },
+                  ),
                 ),
-                [.text(item.romanizedText)],
+                snapshot.hasData
+                    ? snapshot.data!.map((item) {
+                        return span(
+                          styles: Styles(
+                            color: _getColorForLanguage(item.language),
+                            fontWeight: FontWeight.w500,
+                          ),
+                          [.text(item.romanizedText)],
+                        );
+                      }).toList()
+                    : [
+                        .text('Loading resources...'),
+                      ],
               );
-            }).toList(),
+            },
           ),
         ]),
       ],

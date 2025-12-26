@@ -36,7 +36,7 @@ class App extends StatelessComponent {
                 .text('Dart Romanize'),
                 p(
                   styles: Styles(
-                    margin: Spacing.only(top: Unit.pixels(8)),
+                    margin: Spacing.all(Unit.pixels(8)),
                     color: Color('#6b7280'),
                     fontSize: Unit.rem(1),
                   ),

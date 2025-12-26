@@ -9,6 +9,7 @@ void main() async {
   _chinese();
   _hebrew();
   _multiLanguages();
+  _analyze();
 }
 
 void _korean() {
@@ -88,11 +89,10 @@ void _hebrew() {
   print('Hebrew Romanization: \n$hebrewOutput');
 }
 
-void _multiLanguages() {
-  final multiLanguagesText = '''Mixed Script Stress Test:
+const multiLanguagesText = '''Mixed Script Stress Test:
 -------------------------
 1. CJK Ambiguity (Should detect Chinese vs Japanese context):
-   中文 (Chinese) vs 日本語 (Japanese)
+   中文 (Chinese) vs 日本語 (Japanese will likely fail)
    你好世界 (Hello World - CN) mixed with こんにちは (Hello - JP)
    東京 (Tokyo - JP/CN chars) vs 北京 (Beijing - CN)
    
@@ -121,6 +121,18 @@ void _multiLanguages() {
    And finally Hebrew: ולבסוף עברית.
    
    End of Stress Test.''';
+void _multiLanguages() {
   final multiLanguagesOutput = TextRomanizer.romanize(multiLanguagesText);
   print('Multi Languages Romanization: \n$multiLanguagesOutput');
+}
+
+void _analyze() {
+  final output = TextRomanizer.analyze(multiLanguagesText)
+      .map(
+        (e) {
+          return e.romanizedText;
+        },
+      )
+      .join('');
+  print('Analyze Romanization: \n$output');
 }
