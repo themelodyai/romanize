@@ -383,6 +383,95 @@ void main() {
       });
     });
 
+    group('analyze', () {
+      test('should analyze multi-language text correctly', () {
+        const input = '你好 Hello 안녕';
+        final result = TextRomanizer.analyze(input);
+
+        // Expect: [Word(你好), Sep( ), Word(Hello), Sep( ), Word(안녕)]
+        expect(result, hasLength(5));
+
+        // 1. Chinese/Japanese word
+        expect(result[0].rawText, equals('你好'));
+        // Note: Language detection for short strings like '你好' might be 'chinese' or 'japanese'
+        expect(result[0].language, isIn(['chinese', 'japanese']));
+        expect(result[0].romanizedText, isNotEmpty);
+
+        // 2. Separator (Space)
+        expect(result[1].rawText, equals(' '));
+        expect(
+          result[1].language,
+          isEmpty,
+        ); // Separators have empty string language
+        expect(result[1].romanizedText, equals(' '));
+
+        // 3. English word (Unsupported/Empty)
+        expect(result[2].rawText, equals('Hello'));
+        expect(
+          result[2].language,
+          equals('empty'),
+        ); // detectLanguage returns 'empty' for unsupported
+        expect(result[2].romanizedText, equals('Hello'));
+
+        // 4. Separator (Space)
+        expect(result[3].rawText, equals(' '));
+
+        // 5. Korean word
+        expect(result[4].rawText, equals('안녕'));
+        expect(result[4].language, equals('korean'));
+        expect(result[4].romanizedText, isNotEmpty);
+      });
+
+      test('should preserve punctuation and sentence structure', () {
+        const input = 'Hello, World!';
+        final result = TextRomanizer.analyze(input);
+
+        final reconstructed = result.map((r) => r.rawText).join();
+        expect(reconstructed, equals(input));
+      });
+
+      test('should handle repeated words consistently (caching)', () {
+        const input = '안녕 & 안녕';
+        final result = TextRomanizer.analyze(input);
+
+        final firstWord = result.first;
+        final lastWord = result.last;
+
+        expect(firstWord.rawText, equals('안녕'));
+        expect(lastWord.rawText, equals('안녕'));
+
+        // The romanization should be identical
+        expect(firstWord.romanizedText, equals(lastWord.romanizedText));
+        expect(firstWord.language, equals(lastWord.language));
+      });
+
+      test('should return empty list for empty input', () {
+        final result = TextRomanizer.analyze('');
+        expect(result, isEmpty);
+      });
+
+      test('should treat whitespace-only input as separators', () {
+        const input = '   ';
+        final result = TextRomanizer.analyze(input);
+
+        expect(result, isNotEmpty);
+        expect(result.first.rawText, equals(input));
+        expect(result.first.language, isEmpty); // Separator
+      });
+
+      test('should identify specific languages correctly in a sentence', () {
+        // Korean + Punctuation + Japanese
+        const input = '안녕하세요. こんにちは。';
+        final result = TextRomanizer.analyze(input);
+
+        final koreanPart = result.firstWhere((r) => r.rawText == '안녕하세요');
+        expect(koreanPart.language, equals('korean'));
+
+        final japanesePart = result.firstWhere((r) => r.rawText == 'こんにちは');
+        expect(japanesePart.language, equals('japanese'));
+      });
+    });
+
     group('supportedLanguages', () {
       test('should return list of supported languages', () {
         final languages = TextRomanizer.supportedLanguages;

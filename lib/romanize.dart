@@ -1,6 +1,7 @@
 library;
 
 import 'package:romanize/src/romanize_base.dart';
+import 'package:romanize/src/romanized_text.dart';
 import 'package:romanize/src/romanizers/arabic.dart';
 import 'package:romanize/src/romanizers/chinese.dart';
 import 'package:romanize/src/romanizers/cyrillic.dart';
@@ -9,6 +10,7 @@ import 'package:romanize/src/romanizers/japanese.dart';
 import 'package:romanize/src/romanizers/korean.dart';
 
 export 'src/romanize_base.dart';
+export 'src/romanized_text.dart';
 export 'src/romanizers/arabic.dart';
 export 'src/romanizers/chinese.dart';
 export 'src/romanizers/cyrillic.dart';
@@ -46,10 +48,9 @@ class TextRomanizer {
   ///
   /// The romanizers are checked in order when auto-detecting the language.
   static final Set<Romanizer> romanizers = <Romanizer>{
-    HangulRomanizer(),
-
-    CyrillicRomanizer(),
     ArabicRomanizer(),
+    CyrillicRomanizer(),
+    HangulRomanizer(),
     HebrewRomanizer(),
 
     // Note: Chinese is placed before Japanese. Pure Kanji (e.g., "東京") will
@@ -109,7 +110,10 @@ class TextRomanizer {
     return romanizers.where((romanizer) => romanizer.isValid(input)).toSet();
   }
 
-  static final _separatorPattern = RegExp(r'[\s\p{P}_()]+');
+  static final _separatorPattern = RegExp(
+    r'[^\p{L}\p{N}\p{M}]+',
+    unicode: true,
+  );
 
   /// Romanizes the input text by processing each word separately.
   ///
@@ -158,6 +162,61 @@ class TextRomanizer {
     );
   }
 
+  /// Analyzes the input text and returns a list of [RomanizedText] parts.
+  ///
+  /// This method splits the input by spaces and punctuation, romanizing each
+  /// word independently while preserving the original structure of the text.
+  /// Each word is auto-detected and romanized according to its language.
+  ///
+  /// Example:
+  /// ```dart
+  /// // Multi-language text
+  /// final result = TextRomanizer.analyze('你好 Hello 안녕');
+  /// print(result);
+  /// // [
+  /// //  RomanizedText(rawText: '你好', language: 'japanese', romanizedText: 'ni hao'),
+  /// //  RomanizedText(rawText: 'Hello', language: '', romanizedText: 'Hello'),
+  /// //  RomanizedText(rawText: '안녕', language: 'korean', romanizedText: 'annyeong'),
+  /// // ]
+  /// ```
+  ///
+  /// Uses a cache to avoid redundant language detection for repeated words.
+  /// This improves performance for long texts.
+  static List<RomanizedText> analyze(String input) {
+    final parts = <RomanizedText>[];
+    final wordCache = <String, RomanizedText>{};
+
+    input.splitMapJoin(
+      _separatorPattern,
+      onMatch: (Match match) {
+        parts.add(
+          RomanizedText(
+            rawText: match[0]!,
+            language: '',
+            romanizedText: match[0]!,
+          ),
+        );
+        return match[0]!;
+      },
+      // Handle the content (words):
+      onNonMatch: (String word) {
+        if (word.isEmpty) return '';
+        final romanizedPart = wordCache.putIfAbsent(word, () {
+          final romanizer = detectLanguage(word);
+          return RomanizedText(
+            rawText: word,
+            language: romanizer.language,
+            romanizedText: romanizer.romanize(word),
+          );
+        });
+        parts.add(romanizedPart);
+        return word;
+      },
+    );
+
+    return parts;
+  }
+
   /// Returns a [Romanizer] for the specified language.
   ///
   /// The language name is case-insensitive. For example, 'Korean', 'korean',
@@ -168,7 +227,7 @@ class TextRomanizer {
   /// Example:
   /// ```dart
   /// final romanizer = TextRomanizer.forLanguage('japanese');
-  /// final result = romanizer.romanize('こんにちは');
+  /// final result = romanizer.romanize('こんにちは'); // konnichiwa
   /// ```
   static Romanizer forLanguage(String language) {
     if (language.trim().isEmpty) {

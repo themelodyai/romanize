@@ -1,3 +1,7 @@
+## [next]
+
+- `TextRomanizer.analyze`, which analyzes the input text and provides detailed information about detected languages and romanization results for each segment.
+
 ## 0.0.2
 
 - Japanese Kanji support added using [`kuromoji`](https://pub.dev/packages/kuromoji).
