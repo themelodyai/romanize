@@ -470,6 +470,95 @@ void main() {
         final japanesePart = result.firstWhere((r) => r.rawText == 'こんにちは');
         expect(japanesePart.language, equals('japanese'));
       });
+
+      test('should split mixed Latin and Hangul (abc가나다)', () {
+        const input = 'abc가나다';
+        final result = TextRomanizer.analyze(input);
+
+        // Expect: [Latin(abc), Hangul(가나다)]
+        expect(result, hasLength(2));
+
+        expect(result[0].rawText, equals('abc'));
+        expect(result[0].language, equals('empty'));
+
+        expect(result[1].rawText, equals('가나다'));
+        expect(result[1].language, equals('korean'));
+      });
+
+      test('should split mixed Numbers and Scripts', () {
+        // "Room101" -> Room (Latin), 101 (Digits)
+        const input = 'Room101';
+        final result = TextRomanizer.analyze(input);
+
+        expect(result, hasLength(2));
+        expect(result[0].rawText, equals('Room'));
+        expect(result[1].rawText, equals('101'));
+      });
+
+      test('should NOT split natural Japanese (Kanji + Kana)', () {
+        // "日本語です" (Kanji + Hiragana) should stay as ONE chunk
+        const input = '日本語です';
+        final result = TextRomanizer.analyze(input);
+
+        expect(result, hasLength(1));
+        expect(result[0].rawText, equals('日本語です'));
+        expect(result[0].language, equals('japanese'));
+      });
+
+      test('should handle a complex snippet', () {
+        // Input: 123٤٥٦(Numbers)abc가나다(Hangul)カキク(Katakana)
+        // 123   -> Digits
+        // ٤٥٦   -> Arabic
+        // (     -> Separator
+        // Numbers -> Latin
+        // )     -> Separator
+        // abc   -> Latin
+        // 가나다 -> Korean
+        // (     -> Separator
+        // Hangul -> Latin
+        // )     -> Separator
+        // ... etc
+
+        const input = '123٤٥٦(Numbers)abc가나다';
+        final result = TextRomanizer.analyze(input);
+
+        // 1. Check "123٤٥٦" split
+        // ASCII digits [0-9] are separate from Arabic script in the regex
+        final part123 = result.firstWhere((r) => r.rawText == '123');
+        final partArabicNum = result.firstWhere((r) => r.rawText == '٤٥٦');
+
+        expect(part123, isNotNull);
+        expect(partArabicNum, isNotNull);
+        expect(partArabicNum.language, equals('arabic'));
+
+        // 2. Check "abc가나다" split
+        // Find the sequence where abc is followed immediately by 가나다
+        final indexAbc = result.indexWhere((r) => r.rawText == 'abc');
+        expect(indexAbc, isNot(-1));
+
+        final partKorean = result[indexAbc + 1];
+        expect(partKorean.rawText, equals('가나다'));
+        expect(partKorean.language, equals('korean'));
+      });
+
+      test('should split CJK vs Latin', () {
+        const input = 'Hello你好';
+        final result = TextRomanizer.analyze(input);
+
+        expect(result, hasLength(2));
+        expect(result[0].rawText, equals('Hello'));
+        expect(result[1].rawText, equals('你好'));
+      });
+
+      test('should split Cyrillic vs Latin', () {
+        const input = 'TestТест'; // Latin 'Test', Cyrillic 'Test'
+        final result = TextRomanizer.analyze(input);
+
+        expect(result, hasLength(2));
+        expect(result[0].rawText, equals('Test'));
+        expect(result[1].rawText, equals('Тест'));
+        expect(result[1].language, equals('cyrillic'));
+      });
     });
 
     group('supportedLanguages', () {

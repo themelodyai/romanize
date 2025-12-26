@@ -110,8 +110,20 @@ class TextRomanizer {
     return romanizers.where((romanizer) => romanizer.isValid(input)).toSet();
   }
 
-  static final _separatorPattern = RegExp(
-    r'[^\p{L}\p{N}\p{M}]+',
+  static final _separatorPattern = RegExp(r'[\s\p{P}\p{S}]+', unicode: true);
+
+  // Matches chunks of text that share the same script system.
+  // Grouping Kanji/Kana ensures Japanese sentences stay together.
+  static final RegExp _scriptChunkPattern = RegExp(
+    r'('
+    r'[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]+|' // CJK (Keep together)
+    r'[\p{Script=Hangul}]+|' // Korean
+    r'[\p{Script=Arabic}]+|' // Arabic
+    r'[\p{Script=Hebrew}]+|' // Hebrew
+    r'[\p{Script=Cyrillic}]+|' // Cyrillic
+    r'[\p{Script=Latin}]+|' // Latin
+    r'[0-9]+' // ASCII Digits
+    r')',
     unicode: true,
   );
 
@@ -186,6 +198,7 @@ class TextRomanizer {
     final parts = <RomanizedText>[];
     final wordCache = <String, RomanizedText>{};
 
+    // 1. Outer Split: Handles spaces and punctuation
     input.splitMapJoin(
       _separatorPattern,
       onMatch: (Match match) {
@@ -198,18 +211,47 @@ class TextRomanizer {
         );
         return match[0]!;
       },
-      // Handle the content (words):
       onNonMatch: (String word) {
         if (word.isEmpty) return '';
-        final romanizedPart = wordCache.putIfAbsent(word, () {
-          final romanizer = detectLanguage(word);
-          return RomanizedText(
-            rawText: word,
-            language: romanizer.language,
-            romanizedText: romanizer.romanize(word),
+
+        // 2. Inner Split: Handles mixed scripts (e.g., "abc가나다")
+        // We find all "chunks" of consistent script within the word.
+        final matches = _scriptChunkPattern.allMatches(word);
+
+        // Track position to handle any un-matched gaps (symbols skipped by regex?)
+        int currentPos = 0;
+
+        for (final m in matches) {
+          // Handle gap if any (rare, but good for safety)
+          if (m.start > currentPos) {
+            final gap = word.substring(currentPos, m.start);
+            parts.add(
+              RomanizedText(rawText: gap, language: '', romanizedText: gap),
+            );
+          }
+
+          final chunk = m[0]!;
+          final romanizedPart = wordCache.putIfAbsent(chunk, () {
+            final romanizer = detectLanguage(chunk);
+            return RomanizedText(
+              rawText: chunk,
+              language: romanizer.language,
+              romanizedText: romanizer.romanize(chunk),
+            );
+          });
+          parts.add(romanizedPart);
+
+          currentPos = m.end;
+        }
+
+        // Handle trailing characters
+        if (currentPos < word.length) {
+          final tail = word.substring(currentPos);
+          parts.add(
+            RomanizedText(rawText: tail, language: '', romanizedText: tail),
           );
-        });
-        parts.add(romanizedPart);
+        }
+
         return word;
       },
     );
