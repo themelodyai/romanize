@@ -96,12 +96,13 @@ This initializes all the necessary resources, such as the Japanese and Chinese d
 
 ## Supported Languages
 
-- **Korean** (한국어)
-- **Japanese** (日本語) - Using [`kuromoji`](https://pub.dev/packages/kuromoji) for Kanji conversion and [`kana_kit`](https://pub.dev/packages/kana_kit) for Kana and Katakana conversion
+- **Arabic** (العربية) - Custom transliteration based on ISO 233 and DIN 31635
 - **Chinese** (中文) - Using [`pinyin`](https://pub.dev/packages/pinyin) for Pinyin conversion (Simplified and Traditional)
 - **Cyrillic** (Кириллица) - Custom transliteration for Russian, Ukrainian, Serbian, and more
-- **Arabic** (العربية) - Custom transliteration based on ISO 233 and DIN 31635
+- **Greek** (Ελληνικά) - Custom transliteration for Greek based on ISO 843 / ELOT 743
 - **Hebrew** (עברית) - Custom transliteration based on ISO 259-2
+- **Japanese** (日本語) - Using [`kuromoji`](https://pub.dev/packages/kuromoji) for Kanji conversion and [`kana_kit`](https://pub.dev/packages/kana_kit) for Kana and Katakana conversion
+- **Korean** (한국어)
 
 ## API Reference
 

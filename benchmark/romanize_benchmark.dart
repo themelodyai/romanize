@@ -113,6 +113,22 @@ class HebrewRomanizeBenchmark extends BenchmarkBase {
   }
 }
 
+/// Benchmark for Greek romanization
+class GreekRomanizeBenchmark extends BenchmarkBase {
+  GreekRomanizeBenchmark() : super('GreekRomanize');
+
+  static const greekText =
+      'Δεν υπάρχει κανείς που να αγαπάει τον ίδιο τον πόνο, να τον αναζητά και να θέλει να τον νιώθει, επειδή απλά είναι πόνος...';
+  static const greekTextLong = '''
+  Το Lorem Ipsum είναι απλά ένα κείμενο χωρίς νόημα για τους επαγγελματίες της τυπογραφίας και στοιχειοθεσίας. Το Lorem Ipsum είναι το επαγγελματικό πρότυπο όσον αφορά το κείμενο χωρίς νόημα, από τον 15ο αιώνα, όταν ένας ανώνυμος τυπογράφος πήρε ένα δοκίμιο και ανακάτεψε τις λέξεις για να δημιουργήσει ένα δείγμα βιβλίου. Όχι μόνο επιβίωσε πέντε αιώνες, αλλά κυριάρχησε στην ηλεκτρονική στοιχειοθεσία, παραμένοντας με κάθε τρόπο αναλλοίωτο. Έγινε δημοφιλές τη δεκαετία του '60 με την έκδοση των δειγμάτων της Letraset όπου περιελάμβαναν αποσπάσματα του Lorem Ipsum, και πιο πρόσφατα με το λογισμικό ηλεκτρονικής σελιδοποίησης όπως το Aldus PageMaker που περιείχαν εκδοχές του Lorem Ipsum.
+''';
+
+  @override
+  void run() {
+    TextRomanizer.romanize(greekTextLong);
+  }
+}
+
 /// Benchmark for multi-language text romanization
 class MultiLanguageRomanizeBenchmark extends BenchmarkBase {
   MultiLanguageRomanizeBenchmark() : super('MultiLanguageRomanize');
@@ -218,7 +234,7 @@ Mixed Script Stress Test:
    中文 (Chinese) vs 日本語 (Japanese)
    你好世界 (Hello World - CN) mixed with こんにちは (Hello - JP)
    東京 (Tokyo - JP/CN chars) vs 北京 (Beijing - CN)
-   
+
 2. RTL/LTR Alternation (Arabic/Hebrew/English):
    English -> العربية -> English -> עִבְרִית -> English
    Start: مرحبا (Marhaban) -> Middle: שָׁלוֹם (Shalom) -> End.
@@ -227,7 +243,7 @@ Mixed Script Stress Test:
 3. Diacritic Heavy (Vowelization Stress):
    Arabic: كَتَبَ الْوَلَدُ الرِّسَالَةَ (Kataba al-waladu ar-risalata)
    Hebrew: בְּרֵאשִׁית בָּרָא אֱלֹהִים אֵת הַשָּׁמַיִם וְאֵת הָאָרֶץ (Genesis 1:1)
-   
+
 4. Cyrillic & Extended Latin:
    Russian: Съешь же ещё этих мягких французских булок, да выпей чаю.
    Mixed: "Privet (Привет) means Hello."
@@ -242,7 +258,7 @@ Mixed Script Stress Test:
    Suddenly, Cyrillic appears: Внезапно появляется кириллица.
    Followed by Arabic: ويتبع ذلك العربية.
    And finally Hebrew: ולבסוף עברית.
-   
+
    End of Stress Test.
 ''';
 
@@ -262,6 +278,7 @@ void main() async {
   CyrillicRomanizeBenchmark().report();
   ArabicRomanizeBenchmark().report();
   HebrewRomanizeBenchmark().report();
+  GreekRomanizeBenchmark().report();
 
   // Multi-language benchmark
   MultiLanguageRomanizeBenchmark().report();
