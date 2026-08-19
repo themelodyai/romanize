@@ -6,7 +6,7 @@ import 'package:romanize/romanize.dart';
 /// Russian, Ukrainian, Bulgarian, Serbian, and others into Latin script.
 /// Uses a standard transliteration table based on ISO 9 (GOST 7.79-2000).
 class CyrillicRomanizer extends Romanizer {
-  const CyrillicRomanizer() : super(language: 'cyrillic');
+  const CyrillicRomanizer() : super(language: RomanizerSystem.cyrillic);
 
   /// Transliteration map for Cyrillic to Latin characters.
   ///

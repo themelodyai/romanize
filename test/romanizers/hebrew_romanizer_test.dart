@@ -10,7 +10,7 @@ void main() {
     const romanizer = HebrewRomanizer();
 
     test('should have correct language name', () {
-      expect(romanizer.language, equals('hebrew'));
+      expect(romanizer.language.name, equals('hebrew'));
     });
 
     group('isValid', () {

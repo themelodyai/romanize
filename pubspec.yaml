@@ -11,6 +11,7 @@ funding:
   - https://github.com/sponsors/bdlukaa
 
 dependencies:
+  meta: ^1.19.0
   # Romanizers
 
   ## Japanese

@@ -11,7 +11,7 @@ void main() {
     });
 
     test('language identifier is "greek"', () {
-      expect(romanizer.language, 'greek');
+      expect(romanizer.language.name, 'greek');
     });
 
     group('isValid', () {

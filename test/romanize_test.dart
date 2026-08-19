@@ -93,7 +93,7 @@ void main() {
       test('should return HangulRomanizer for "korean"', () {
         final romanizer = TextRomanizer.forLanguage('korean');
         expect(romanizer, isA<HangulRomanizer>());
-        expect(romanizer.language, equals('korean'));
+        expect(romanizer.language.name, equals('korean'));
       });
 
       test('should return HangulRomanizer for "Korean" (case insensitive)', () {
@@ -109,25 +109,25 @@ void main() {
       test('should return JapaneseRomanizer for "japanese"', () {
         final romanizer = TextRomanizer.forLanguage('japanese');
         expect(romanizer, isA<JapaneseRomanizer>());
-        expect(romanizer.language, equals('japanese'));
+        expect(romanizer.language.name, equals('japanese'));
       });
 
       test('should return CyrillicRomanizer for "cyrillic"', () {
         final romanizer = TextRomanizer.forLanguage('cyrillic');
         expect(romanizer, isA<CyrillicRomanizer>());
-        expect(romanizer.language, equals('cyrillic'));
+        expect(romanizer.language.name, equals('cyrillic'));
       });
 
       test('should return ChineseRomanizer for "chinese"', () {
         final romanizer = TextRomanizer.forLanguage('chinese');
         expect(romanizer, isA<ChineseRomanizer>());
-        expect(romanizer.language, equals('chinese'));
+        expect(romanizer.language.name, equals('chinese'));
       });
 
       test('should return ArabicRomanizer for "arabic"', () {
         final romanizer = TextRomanizer.forLanguage('arabic');
         expect(romanizer, isA<ArabicRomanizer>());
-        expect(romanizer.language, equals('arabic'));
+        expect(romanizer.language.name, equals('arabic'));
       });
 
       test('should handle language with whitespace', () {
@@ -189,7 +189,7 @@ void main() {
         final romanizer2 = TextRomanizer.forLanguageOrNull('korean');
         expect(romanizer1, isNotNull);
         expect(romanizer2, isNotNull);
-        expect(romanizer1?.language, equals(romanizer2?.language));
+        expect(romanizer1?.language.name, equals(romanizer2?.language.name));
       });
 
       test('should handle language with whitespace', () {
@@ -204,41 +204,41 @@ void main() {
         const input = '안녕하세요';
         final romanizer = TextRomanizer.detectLanguage(input);
         expect(romanizer, isA<HangulRomanizer>());
-        expect(romanizer.language, equals('korean'));
+        expect(romanizer.language.name, equals('korean'));
       });
 
       test('should detect Japanese language', () {
         const input = 'こんにちは';
         final romanizer = TextRomanizer.detectLanguage(input);
         expect(romanizer, isA<JapaneseRomanizer>());
-        expect(romanizer.language, equals('japanese'));
+        expect(romanizer.language.name, equals('japanese'));
       });
 
       test('should detect Chinese language', () {
         const input = '你好';
         final romanizer = TextRomanizer.detectLanguage(input);
         expect(romanizer, isA<ChineseRomanizer>());
-        expect(romanizer.language, equals('chinese'));
+        expect(romanizer.language.name, equals('chinese'));
       });
 
       test('should detect Cyrillic language', () {
         const input = 'Привет';
         final romanizer = TextRomanizer.detectLanguage(input);
         expect(romanizer, isA<CyrillicRomanizer>());
-        expect(romanizer.language, equals('cyrillic'));
+        expect(romanizer.language.name, equals('cyrillic'));
       });
 
       test('should detect Arabic language', () {
         const input = 'أنا';
         final romanizer = TextRomanizer.detectLanguage(input);
         expect(romanizer, isA<ArabicRomanizer>());
-        expect(romanizer.language, equals('arabic'));
+        expect(romanizer.language.name, equals('arabic'));
       });
 
       test('should return EmptyRomanizer for empty input', () {
         const input = '';
         final romanizer = TextRomanizer.detectLanguage(input);
-        expect(romanizer.language, equals('empty'));
+        expect(romanizer.language.name, equals('none'));
         // EmptyRomanizer returns input unchanged
         expect(romanizer.romanize('test'), equals('test'));
       });
@@ -246,13 +246,13 @@ void main() {
       test('should return EmptyRomanizer for whitespace-only input', () {
         const input = '   ';
         final romanizer = TextRomanizer.detectLanguage(input);
-        expect(romanizer.language, equals('empty'));
+        expect(romanizer.language.name, equals('none'));
       });
 
       test('should return EmptyRomanizer for unsupported language', () {
         const input = 'Hello World';
         final romanizer = TextRomanizer.detectLanguage(input);
-        expect(romanizer.language, equals('empty'));
+        expect(romanizer.language.name, equals('none'));
         // EmptyRomanizer returns input unchanged
         expect(romanizer.romanize(input), equals(input));
       });
@@ -265,7 +265,7 @@ void main() {
         expect(languages, isNotEmpty);
         expect(languages.length, equals(1));
         expect(languages.first, isA<HangulRomanizer>());
-        expect(languages.first.language, equals('korean'));
+        expect(languages.first.language.name, equals('korean'));
       });
 
       test('should detect Japanese language', () {
@@ -274,7 +274,7 @@ void main() {
         expect(languages, isNotEmpty);
         expect(languages.length, equals(1));
         expect(languages.first, isA<JapaneseRomanizer>());
-        expect(languages.first.language, equals('japanese'));
+        expect(languages.first.language.name, equals('japanese'));
       });
 
       test('should detect Chinese language', () {
@@ -290,7 +290,7 @@ void main() {
         expect(languages, isNotEmpty);
         expect(languages.length, equals(1));
         expect(languages.first, isA<CyrillicRomanizer>());
-        expect(languages.first.language, equals('cyrillic'));
+        expect(languages.first.language.name, equals('cyrillic'));
       });
 
       test('should detect Arabic language', () {
@@ -299,7 +299,7 @@ void main() {
         expect(languages, isNotEmpty);
         expect(languages.length, equals(1));
         expect(languages.first, isA<ArabicRomanizer>());
-        expect(languages.first.language, equals('arabic'));
+        expect(languages.first.language.name, equals('arabic'));
       });
 
       test('should return set with EmptyRomanizer for empty input', () {
@@ -307,7 +307,7 @@ void main() {
         final languages = TextRomanizer.detectLanguages(input);
         expect(languages, isNotEmpty);
         expect(languages.length, equals(1));
-        expect(languages.first.language, equals('empty'));
+        expect(languages.first.language.name, equals('none'));
       });
 
       test(
@@ -317,7 +317,7 @@ void main() {
           final languages = TextRomanizer.detectLanguages(input);
           expect(languages, isNotEmpty);
           expect(languages.length, equals(1));
-          expect(languages.first.language, equals('empty'));
+          expect(languages.first.language.name, equals('none'));
         },
       );
 
@@ -341,7 +341,7 @@ void main() {
         final languages = TextRomanizer.detectLanguages(input);
         // Should detect at least Korean and Chinese
         expect(languages.length, greaterThanOrEqualTo(1));
-        final languageNames = languages.map((r) => r.language).toSet();
+        final languageNames = languages.map((r) => r.language.name).toSet();
         expect(languageNames, contains('korean'));
         expect(languageNames, contains('chinese'));
       });
@@ -394,23 +394,23 @@ void main() {
         // 1. Chinese/Japanese word
         expect(result[0].rawText, equals('你好'));
         // Note: Language detection for short strings like '你好' might be 'chinese' or 'japanese'
-        expect(result[0].language, isIn(['chinese', 'japanese']));
+        expect(result[0].language.name, isIn(['chinese', 'japanese']));
         expect(result[0].romanizedText, isNotEmpty);
 
         // 2. Separator (Space)
         expect(result[1].rawText, equals(' '));
         expect(
-          result[1].language,
-          isEmpty,
+          result[1].language.name,
+          equals('none'),
         ); // Separators have empty string language
         expect(result[1].romanizedText, equals(' '));
 
         // 3. English word (Unsupported/Empty)
         expect(result[2].rawText, equals('Hello'));
         expect(
-          result[2].language,
-          equals('empty'),
-        ); // detectLanguage returns 'empty' for unsupported
+          result[2].language.name,
+          equals('none'),
+        ); // detectLanguage returns 'none' for unsupported
         expect(result[2].romanizedText, equals('Hello'));
 
         // 4. Separator (Space)
@@ -418,7 +418,7 @@ void main() {
 
         // 5. Korean word
         expect(result[4].rawText, equals('안녕'));
-        expect(result[4].language, equals('korean'));
+        expect(result[4].language.name, equals('korean'));
         expect(result[4].romanizedText, isNotEmpty);
       });
 
@@ -442,7 +442,7 @@ void main() {
 
         // The romanization should be identical
         expect(firstWord.romanizedText, equals(lastWord.romanizedText));
-        expect(firstWord.language, equals(lastWord.language));
+        expect(firstWord.language.name, equals(lastWord.language.name));
       });
 
       test('should return empty list for empty input', () {
@@ -456,7 +456,7 @@ void main() {
 
         expect(result, isNotEmpty);
         expect(result.first.rawText, equals(input));
-        expect(result.first.language, isEmpty); // Separator
+        expect(result.first.language.name, equals('none')); // Separator
       });
 
       test('should identify specific languages correctly in a sentence', () {
@@ -465,10 +465,10 @@ void main() {
         final result = TextRomanizer.analyze(input);
 
         final koreanPart = result.firstWhere((r) => r.rawText == '안녕하세요');
-        expect(koreanPart.language, equals('korean'));
+        expect(koreanPart.language.name, equals('korean'));
 
         final japanesePart = result.firstWhere((r) => r.rawText == 'こんにちは');
-        expect(japanesePart.language, equals('japanese'));
+        expect(japanesePart.language.name, equals('japanese'));
       });
 
       test('should split mixed Latin and Hangul (abc가나다)', () {
@@ -479,10 +479,10 @@ void main() {
         expect(result, hasLength(2));
 
         expect(result[0].rawText, equals('abc'));
-        expect(result[0].language, equals('empty'));
+        expect(result[0].language.name, equals('none'));
 
         expect(result[1].rawText, equals('가나다'));
-        expect(result[1].language, equals('korean'));
+        expect(result[1].language.name, equals('korean'));
       });
 
       test('should split mixed Numbers and Scripts', () {
@@ -502,7 +502,7 @@ void main() {
 
         expect(result, hasLength(1));
         expect(result[0].rawText, equals('日本語です'));
-        expect(result[0].language, equals('japanese'));
+        expect(result[0].language.name, equals('japanese'));
       });
 
       test('should handle a complex snippet', () {
@@ -529,7 +529,7 @@ void main() {
 
         expect(part123, isNotNull);
         expect(partArabicNum, isNotNull);
-        expect(partArabicNum.language, equals('arabic'));
+        expect(partArabicNum.language.name, equals('arabic'));
 
         // 2. Check "abc가나다" split
         // Find the sequence where abc is followed immediately by 가나다
@@ -538,7 +538,7 @@ void main() {
 
         final partKorean = result[indexAbc + 1];
         expect(partKorean.rawText, equals('가나다'));
-        expect(partKorean.language, equals('korean'));
+        expect(partKorean.language.name, equals('korean'));
       });
 
       test('should split CJK vs Latin', () {
@@ -557,7 +557,7 @@ void main() {
         expect(result, hasLength(2));
         expect(result[0].rawText, equals('Test'));
         expect(result[1].rawText, equals('Тест'));
-        expect(result[1].language, equals('cyrillic'));
+        expect(result[1].language.name, equals('cyrillic'));
       });
     });
 

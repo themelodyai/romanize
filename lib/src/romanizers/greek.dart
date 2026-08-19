@@ -19,7 +19,7 @@ class GreekRomanizer extends Romanizer {
 
   /// Creates a new [GreekRomanizer] instance.
   const GreekRomanizer({this.options = const GreekRomanizerOptions()})
-    : super(language: 'greek');
+    : super(language: RomanizerSystem.greek);
 
   // Standard Greek to Latin character mapping (Accents stripped).
   static const Map<String, String> _baseCharMap = {

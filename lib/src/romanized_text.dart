@@ -1,3 +1,5 @@
+import 'package:romanize/romanize.dart';
+
 /// A class representing the romanized text along with its original form and the
 /// language used for romanization.
 ///
@@ -9,14 +11,14 @@ class RomanizedText {
   final String rawText;
 
   /// The romanizer used to convert the text.
-  final String language;
+  final RomanizerSystem language;
 
   /// The romanized text.
   final String romanizedText;
 
   const RomanizedText({
     required this.rawText,
-    required this.language,
     required this.romanizedText,
+    this.language = RomanizerSystem.none,
   });
 }

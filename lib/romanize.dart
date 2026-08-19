@@ -206,13 +206,7 @@ class TextRomanizer {
     input.splitMapJoin(
       _separatorPattern,
       onMatch: (Match match) {
-        parts.add(
-          RomanizedText(
-            rawText: match[0]!,
-            language: '',
-            romanizedText: match[0]!,
-          ),
-        );
+        parts.add(RomanizedText(rawText: match[0]!, romanizedText: match[0]!));
         return match[0]!;
       },
       onNonMatch: (String word) {
@@ -229,9 +223,7 @@ class TextRomanizer {
           // Handle gap if any (rare, but good for safety)
           if (m.start > currentPos) {
             final gap = word.substring(currentPos, m.start);
-            parts.add(
-              RomanizedText(rawText: gap, language: '', romanizedText: gap),
-            );
+            parts.add(RomanizedText(rawText: gap, romanizedText: gap));
           }
 
           final chunk = m[0]!;
@@ -251,9 +243,7 @@ class TextRomanizer {
         // Handle trailing characters
         if (currentPos < word.length) {
           final tail = word.substring(currentPos);
-          parts.add(
-            RomanizedText(rawText: tail, language: '', romanizedText: tail),
-          );
+          parts.add(RomanizedText(rawText: tail, romanizedText: tail));
         }
 
         return word;
@@ -286,7 +276,8 @@ class TextRomanizer {
 
     return romanizers.firstWhere(
       (romanizer) =>
-          romanizer.language.toLowerCase() == language.toLowerCase().trim(),
+          romanizer.language.name.toLowerCase() ==
+          language.toLowerCase().trim(),
       orElse: () => throw UnimplementedError(
         'No Romanizer found for the language: $language. '
         'Supported languages: ${supportedLanguages.join(", ")}',
@@ -318,7 +309,7 @@ class TextRomanizer {
 
     final normalizedLanguage = language.toLowerCase().trim();
     for (final romanizer in romanizers) {
-      if (romanizer.language.toLowerCase() == normalizedLanguage) {
+      if (romanizer.language.name.toLowerCase() == normalizedLanguage) {
         return romanizer;
       }
     }
@@ -333,5 +324,5 @@ class TextRomanizer {
   /// print(languages); // ['korean', 'japanese']
   /// ```
   static Set<String> get supportedLanguages =>
-      romanizers.map((r) => r.language).toSet();
+      romanizers.map((r) => r.language.name).toSet();
 }

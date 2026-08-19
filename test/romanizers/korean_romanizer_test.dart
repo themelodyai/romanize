@@ -10,7 +10,7 @@ void main() {
     const romanizer = HangulRomanizer();
 
     test('should have correct language name', () {
-      expect(romanizer.language, equals('korean'));
+      expect(romanizer.language.name, equals('korean'));
     });
 
     group('isValid', () {

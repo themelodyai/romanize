@@ -10,7 +10,7 @@ void main() {
     final romanizer = JapaneseRomanizer();
 
     test('should have correct language name', () {
-      expect(romanizer.language, equals('japanese'));
+      expect(romanizer.language.name, equals('japanese'));
     });
 
     group('isValid', () {

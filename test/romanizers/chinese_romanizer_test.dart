@@ -9,7 +9,7 @@ void main() {
   group('ChineseRomanizer', () {
     test('should have correct language name', () {
       const romanizer = ChineseRomanizer();
-      expect(romanizer.language, equals('chinese'));
+      expect(romanizer.language.name, equals('chinese'));
     });
 
     group('isValid', () {

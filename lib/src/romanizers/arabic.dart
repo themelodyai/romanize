@@ -36,7 +36,7 @@ class ArabicRomanizer extends Romanizer {
   ///
   /// Defaults to [ArabicSystem.alaLc].
   const ArabicRomanizer({this.system = ArabicSystem.alaLc})
-    : super(language: 'arabic');
+    : super(language: RomanizerSystem.arabic);
 
   final ArabicSystem system;
 

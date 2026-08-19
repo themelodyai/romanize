@@ -18,7 +18,7 @@ Future<List<Object?>> romanize(String text) async {
   return TextRomanizer.analyze(text).map<Map<String, String>>((text) {
     return {
       'rawText': text.rawText,
-      'language': text.language,
+      'language': text.language.name,
       'romanizedText': text.romanizedText,
     };
   }).toList();
@@ -50,7 +50,7 @@ class RomanizationService {
     return (await _manager.compute(text) as List).cast<Map<Object?, Object?>>().map((e) {
       return RomanizedText(
         rawText: e['rawText'] as String,
-        language: e['language'] as String,
+        language: RomanizerSystem.values.byName(e['language'] as String),
         romanizedText: e['romanizedText'] as String,
       );
     }).toList();

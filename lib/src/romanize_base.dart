@@ -1,3 +1,18 @@
+import 'package:meta/meta.dart';
+
+/// An enum representing the supported romanization systems.
+enum RomanizerSystem {
+  @internal
+  none,
+  arabic,
+  chinese,
+  cyrillic,
+  greek,
+  hebrew,
+  japanese,
+  korean,
+}
+
 /// Abstract base class for language-specific text romanization.
 ///
 /// A [Romanizer] converts text from a specific writing system (such as
@@ -13,7 +28,7 @@ abstract class Romanizer {
   /// This should be a lowercase string (e.g., 'japanese', 'korean').
   /// It is used by [TextRomanizer] to identify and select the appropriate
   /// romanizer for a given language.
-  final String language;
+  final RomanizerSystem language;
 
   /// Converts a given string to its Romanized form.
   ///
@@ -38,7 +53,7 @@ abstract class Romanizer {
 }
 
 class EmptyRomanizer extends Romanizer {
-  const EmptyRomanizer() : super(language: 'empty');
+  const EmptyRomanizer() : super(language: RomanizerSystem.none);
 
   @override
   bool isValid(String input) {

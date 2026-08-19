@@ -32,7 +32,7 @@ enum ToneAnnotation {
 /// for Mandarin Chinese.
 class ChineseRomanizer extends Romanizer {
   const ChineseRomanizer({this.toneAnnotation = ToneAnnotation.mark})
-    : super(language: 'chinese');
+    : super(language: RomanizerSystem.chinese);
 
   final ToneAnnotation toneAnnotation;
 

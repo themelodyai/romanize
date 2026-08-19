@@ -5,7 +5,7 @@ import 'package:romanize/romanize.dart';
 /// Supports transliteration of Hebrew characters into Latin script using
 /// a standard transliteration table (aligned with ISO 259 and DIN 31636).
 class HebrewRomanizer extends Romanizer {
-  const HebrewRomanizer() : super(language: 'hebrew');
+  const HebrewRomanizer() : super(language: RomanizerSystem.hebrew);
 
   /// Transliteration map for Hebrew to Latin characters.
   ///

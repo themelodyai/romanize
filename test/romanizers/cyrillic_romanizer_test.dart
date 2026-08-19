@@ -10,7 +10,7 @@ void main() {
     const romanizer = CyrillicRomanizer();
 
     test('should have correct language name', () {
-      expect(romanizer.language, equals('cyrillic'));
+      expect(romanizer.language.name, equals('cyrillic'));
     });
 
     group('isValid', () {

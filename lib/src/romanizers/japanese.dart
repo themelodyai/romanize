@@ -5,7 +5,7 @@ import 'package:kuromoji/src/tokenizer.dart';
 import 'package:romanize/romanize.dart';
 
 class JapaneseRomanizer extends Romanizer {
-  JapaneseRomanizer() : super(language: 'japanese');
+  JapaneseRomanizer() : super(language: RomanizerSystem.japanese);
 
   static const kanaKit = KanaKit(
     config: KanaKitConfig(

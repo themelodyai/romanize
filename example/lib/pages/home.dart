@@ -24,21 +24,24 @@ class _HomeState extends State<Home> {
     }
   }
 
-  Color _getColorForLanguage(String languageCode) {
-    switch (languageCode) {
-      case 'korean':
+  Color _getColorForLanguage(RomanizerSystem language) {
+    switch (language) {
+      case RomanizerSystem.korean:
         return Color('#3B82F6'); // Blue
-      case 'japanese':
+      case RomanizerSystem.japanese:
         return Color('#EF4444'); // Red
-      case 'chinese':
+      case RomanizerSystem.chinese:
         return Color('#F59E0B'); // Amber
-      case 'arabic':
+      case RomanizerSystem.arabic:
         return Color('#10B981'); // Green
-      case 'hebrew':
+      case RomanizerSystem.hebrew:
         return Color('#EC4899'); // Pink
-      case 'cyrillic':
+      case RomanizerSystem.cyrillic:
         return Color('#8B5CF6'); // Purple
-      default:
+      case RomanizerSystem.greek:
+        return Color('#00FFFF'); // Cyan
+      // ignore: invalid_use_of_internal_member
+      case RomanizerSystem.none:
         return Color('#6B7280'); // Neutral Gray
     }
   }
