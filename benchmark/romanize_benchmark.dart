@@ -150,15 +150,35 @@ class GreekRomanizeBenchmark extends RomanizeBenchmark {
   }
 }
 
+/// Benchmark for Devanagari romanization
+class DevanagariRomanizeBenchmark extends RomanizeBenchmark {
+  DevanagariRomanizeBenchmark() : super('DevanagariRomanize');
+
+  static const devanagariText =
+      'लोरेम इप्सम केवल मुद्रण और टाइपसेटिंग उद्योग का डमी टेक्स्ट है।';
+  static const devanagariTextLong = '''
+लोरेम इप्सम केवल मुद्रण और टाइपसेटिंग उद्योग का डमी टेक्स्ट है।
+लोरेम इप्सम 1500 के दशक से उद्योग का मानक डमी टेक्स्ट रहा है, जब एक अज्ञात मुद्रक ने टाइप की गैली ली और उसे एक टाइप नमूना पुस्तक बनाने के लिए मिला दिया।
+यह न केवल पाँच शताब्दियों तक जीवित रहा, बल्कि इलेक्ट्रॉनिक टाइपसेटिंग में छलांग भी लगाई, और मूल रूप से अपरिवर्तित रहा।
+इसे 1960 के दशक में लोरेम इप्सम के अंशों वाली लेट्रासेट शीट्स के विमोचन के साथ लोकप्रिय बनाया गया था, और हाल ही में एल्डस पेजमेकर जैसे डेस्कटॉप प्रकाशन सॉफ्टवेयर के साथ जिसमें लोरेम इप्सम के संस्करण शामिल हैं।
+''';
+
+  @override
+  void run() {
+    TextRomanizer.romanize(devanagariTextLong);
+  }
+}
+
 /// Benchmark for multi-language text romanization
 class MultiLanguageRomanizeBenchmark extends RomanizeBenchmark {
   MultiLanguageRomanizeBenchmark() : super('MultiLanguageRomanize');
 
-  static const multiLanguageText = '안녕 Hello こんにちは 你好 Привет مرحبا שָׁלוֹם';
+  static const multiLanguageText =
+      '안녕 Hello こんにちは 你好 Привет مرحبا שָׁלוֹם नमस्ते';
   static const multiLanguageTextLong = '''
-안녕하세요 Hello こんにちは 你好世界 Привет мир مرحبا بكم שָׁלוֹם עוֹלָם
-Korean English Japanese Chinese Cyrillic Arabic Hebrew
-한국어 영어 日本語 中文 Кириллица العربية עִבְרִית
+안녕하세요 Hello こんにちは 你好世界 Привет мир مرحبا بكم שָׁלוֹם עוֹלָם नमस्ते दुनिया
+Korean English Japanese Chinese Cyrillic Arabic Hebrew Devanagari
+한국어 영어 日本語 中文 Кириллица العربية עִבְרִית हिन्दी
 ''';
 
   @override
@@ -178,6 +198,7 @@ class LanguageDetectionBenchmark extends RomanizeBenchmark {
     'Привет',
     'مرحبا',
     'שָׁלוֹם',
+    'नमस्ते',
   ];
 
   @override
@@ -198,6 +219,7 @@ class DirectRomanizerBenchmark extends RomanizeBenchmark {
   late final CyrillicRomanizer cyrillicRomanizer;
   late final ArabicRomanizer arabicRomanizer;
   late final HebrewRomanizer hebrewRomanizer;
+  late final DevanagariRomanizer devanagariRomanizer;
 
   @override
   void setup() {
@@ -207,6 +229,7 @@ class DirectRomanizerBenchmark extends RomanizeBenchmark {
     cyrillicRomanizer = CyrillicRomanizer();
     arabicRomanizer = ArabicRomanizer();
     hebrewRomanizer = HebrewRomanizer();
+    devanagariRomanizer = DevanagariRomanizer();
   }
 
   @override
@@ -217,6 +240,9 @@ class DirectRomanizerBenchmark extends RomanizeBenchmark {
     cyrillicRomanizer.romanize(CyrillicRomanizeBenchmark.cyrillicTextLong);
     arabicRomanizer.romanize(ArabicRomanizeBenchmark.arabicTextLong);
     hebrewRomanizer.romanize(HebrewRomanizeBenchmark.hebrewTextLong);
+    devanagariRomanizer.romanize(
+      DevanagariRomanizeBenchmark.devanagariTextLong,
+    );
   }
 }
 
@@ -233,6 +259,7 @@ ${CyrillicRomanizeBenchmark.cyrillicTextLong}
 ${ArabicRomanizeBenchmark.arabicTextLong}
 ${HebrewRomanizeBenchmark.hebrewTextLong}
 ${GreekRomanizeBenchmark.greekTextLong}
+${DevanagariRomanizeBenchmark.devanagariTextLong}
 ''';
 
   @override
@@ -296,6 +323,7 @@ void main() async {
   ArabicRomanizeBenchmark().report();
   HebrewRomanizeBenchmark().report();
   GreekRomanizeBenchmark().report();
+  DevanagariRomanizeBenchmark().report();
 
   // Multi-language benchmark
   MultiLanguageRomanizeBenchmark().report();

@@ -5,6 +5,7 @@ import 'package:romanize/src/romanized_text.dart';
 import 'package:romanize/src/romanizers/arabic.dart';
 import 'package:romanize/src/romanizers/chinese.dart';
 import 'package:romanize/src/romanizers/cyrillic.dart';
+import 'package:romanize/src/romanizers/devanagari.dart';
 import 'package:romanize/src/romanizers/greek.dart';
 import 'package:romanize/src/romanizers/hebrew.dart';
 import 'package:romanize/src/romanizers/japanese.dart';
@@ -15,6 +16,7 @@ export 'src/romanized_text.dart';
 export 'src/romanizers/arabic.dart';
 export 'src/romanizers/chinese.dart';
 export 'src/romanizers/cyrillic.dart';
+export 'src/romanizers/devanagari.dart';
 export 'src/romanizers/greek.dart';
 export 'src/romanizers/hebrew.dart';
 export 'src/romanizers/japanese.dart';
@@ -52,6 +54,7 @@ class TextRomanizer {
   static final Set<Romanizer> romanizers = <Romanizer>{
     ArabicRomanizer(),
     CyrillicRomanizer(),
+    DevanagariRomanizer(),
     GreekRomanizer(),
     HangulRomanizer(),
     HebrewRomanizer(),
@@ -124,6 +127,7 @@ class TextRomanizer {
     r'[\p{Script=Hangul}]+|' // Korean
     r'[\p{Script=Arabic}]+|' // Arabic
     r'[\p{Script=Hebrew}]+|' // Hebrew
+    r'[\p{Script=Devanagari}]+|' // Devanagari
     r'[\p{Script=Cyrillic}]+|' // Cyrillic
     r'[\p{Script=Latin}]+|' // Latin
     r'[\p{Script=Greek}]+|' // Greek

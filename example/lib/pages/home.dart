@@ -40,6 +40,8 @@ class _HomeState extends State<Home> {
         return Color('#8B5CF6'); // Purple
       case RomanizerSystem.greek:
         return Color('#00FFFF'); // Cyan
+      case RomanizerSystem.devanagari:
+        return Color('#F97316'); // Orange
       // ignore: invalid_use_of_internal_member
       case RomanizerSystem.none:
         return Color('#6B7280'); // Neutral Gray

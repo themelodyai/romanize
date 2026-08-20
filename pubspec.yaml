@@ -1,5 +1,5 @@
 name: romanize
-description: A lightweight Dart package for converting Arabic, Chinese, Cyrillic, Hebrew, Japanese and Korean text to Romanized form with auto-detection support.
+description: A lightweight Dart package for converting Arabic, Chinese, Cyrillic, Devanagari, Greek, Hebrew, Japanese and Korean text to Romanized form with auto-detection support.
 version: 0.0.3
 repository: https://github.com/themelodyai/romanize
 issue_tracker: https://github.com/themelodyai/romanize/issues

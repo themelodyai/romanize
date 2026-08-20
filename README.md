@@ -8,7 +8,7 @@ A powerful Dart package for seamlessly converting multilingual text into its Rom
 
 ## Features
 
-- 🌏 **Multi-language support**: Korean, Japanese, Chinese, Cyrillic, Hebrew and Arabic
+- 🌏 **Multi-language support**: Korean, Japanese, Chinese, Devanagari, Cyrillic, Hebrew and Arabic
 - 🔍 **Auto-detection**: Automatically detects the languages present in the input text
 - 🛠️ **Flexible & extensible**: Easily create your own custom romanizer for any language or writing system
 - 📦 **Lightweight**: Minimal dependencies, fast performance
@@ -82,7 +82,13 @@ final chineseRomanizer = ChineseRomanizer(toneAnnotation: ToneAnnotation.mark);
 print(chineseRomanizer.romanize(chineseText)); // nǐ hǎo
 ```
 
-Some romanizers have additional options. For example, the `ChineseRomanizer` has the `toneAnnotation` option to specify the tone annotation to use.
+Some romanizers have additional options. For example, the `ChineseRomanizer` has the `toneAnnotation` option to specify the tone annotation to use. The `DevanagariRomanizer` accepts a `system` option to choose between IAST diacritics and plain ASCII:
+
+```dart
+final devanagariText = 'भारत';
+final iast = DevanagariRomanizer(); // bhārata
+final ascii = DevanagariRomanizer(system: DevanagariSystem.ascii); // bhaarata
+```
 
 ### Load resources
 
@@ -99,6 +105,7 @@ This initializes all the necessary resources, such as the Japanese and Chinese d
 - **Arabic** (العربية) - Custom transliteration based on ISO 233 and DIN 31635
 - **Chinese** (中文) - Using [`pinyin`](https://pub.dev/packages/pinyin) for Pinyin conversion (Simplified and Traditional)
 - **Cyrillic** (Кириллица) - Custom transliteration for Russian, Ukrainian, Serbian, and more
+- **Devanagari** (देवनागरी) - Custom transliteration for Hindi, Marathi, Sanskrit, and more based on IAST / ISO 15919
 - **Greek** (Ελληνικά) - Custom transliteration for Greek based on ISO 843 / ELOT 743
 - **Hebrew** (עברית) - Custom transliteration based on ISO 259-2
 - **Japanese** (日本語) - Using [`kuromoji`](https://pub.dev/packages/kuromoji) for Kanji conversion and [`kana_kit`](https://pub.dev/packages/kana_kit) for Kana and Katakana conversion

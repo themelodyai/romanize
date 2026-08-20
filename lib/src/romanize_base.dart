@@ -7,6 +7,7 @@ enum RomanizerSystem {
   arabic,
   chinese,
   cyrillic,
+  devanagari,
   greek,
   hebrew,
   japanese,

@@ -1,5 +1,6 @@
 ## [next]
 
+- Added Devanagari romanization support based on IAST / ISO 15919.
 - Added Greek romanization support.
 
 ## 0.0.3

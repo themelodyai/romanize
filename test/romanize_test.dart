@@ -569,6 +569,7 @@ void main() {
         expect(languages, contains('japanese'));
         expect(languages, contains('chinese'));
         expect(languages, contains('cyrillic'));
+        expect(languages, contains('devanagari'));
         expect(languages, contains('arabic'));
         expect(languages, contains('hebrew'));
       });
