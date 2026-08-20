@@ -64,9 +64,11 @@ class GreekRomanizer extends Romanizer {
     'ΰ': 'ÿ́',
   };
 
+  static final _greekPattern = RegExp(r'[\u0370-\u03FF\u1F00-\u1FFF]');
+
   @override
   bool isValid(String input) {
-    return RegExp(r'[\u0370-\u03FF\u1F00-\u1FFF]').hasMatch(input);
+    return _greekPattern.hasMatch(input);
   }
 
   @override

@@ -106,7 +106,7 @@ class TextRomanizer {
   /// print(languages); // {HangulRomanizer()}
   /// ```
   static Set<Romanizer> detectLanguages(String input) {
-    if (input.isEmpty || !RegExp(r'\S').hasMatch(input)) {
+    if (input.isEmpty || !_nonWhitespacePattern.hasMatch(input)) {
       return {EmptyRomanizer()};
     }
 
@@ -114,6 +114,7 @@ class TextRomanizer {
   }
 
   static final _separatorPattern = RegExp(r'[\s\p{P}\p{S}]+', unicode: true);
+  static final _nonWhitespacePattern = RegExp(r'\S');
 
   // Matches chunks of text that share the same script system.
   // Grouping Kanji/Kana ensures Japanese sentences stay together.

@@ -105,6 +105,8 @@ class HangulRomanizer extends Romanizer {
     0x3163: 'i',
   };
 
+  static final _hangulPattern = RegExp(r'[\uAC00-\uD7AF]');
+
   @override
   String romanize(String input) {
     if (input.isEmpty) return input;
@@ -144,6 +146,6 @@ class HangulRomanizer extends Romanizer {
   @override
   bool isValid(String input) {
     if (input.isEmpty) return false;
-    return RegExp(r'[\uAC00-\uD7AF]').hasMatch(input);
+    return _hangulPattern.hasMatch(input);
   }
 }
