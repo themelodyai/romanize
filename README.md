@@ -8,7 +8,7 @@ A powerful Dart package for seamlessly converting multilingual text into its Rom
 
 ## Features
 
-- 🌏 **Multi-language support**: Korean, Japanese, Chinese, Devanagari, Cyrillic, Hebrew and Arabic
+- 🌏 **Multi-language support**: Korean, Japanese, Chinese, Cyrillic, Hindi, Greek, Hebrew and Arabic
 - 🔍 **Auto-detection**: Automatically detects the languages present in the input text
 - 🛠️ **Flexible & extensible**: Easily create your own custom romanizer for any language or writing system
 - 📦 **Lightweight**: Minimal dependencies, fast performance
@@ -82,13 +82,7 @@ final chineseRomanizer = ChineseRomanizer(toneAnnotation: ToneAnnotation.mark);
 print(chineseRomanizer.romanize(chineseText)); // nǐ hǎo
 ```
 
-Some romanizers have additional options. For example, the `ChineseRomanizer` has the `toneAnnotation` option to specify the tone annotation to use. The `DevanagariRomanizer` accepts a `system` option to choose between IAST diacritics and plain ASCII:
-
-```dart
-final devanagariText = 'भारत';
-final iast = DevanagariRomanizer(); // bhārata
-final ascii = DevanagariRomanizer(system: DevanagariSystem.ascii); // bhaarata
-```
+Some romanizers have additional options. For example, the `ChineseRomanizer` has the `toneAnnotation` option to specify the tone annotation to use.
 
 ### Load resources
 
@@ -98,7 +92,7 @@ Pre initialize the resources:
 await TextRomanizer.ensureInitialized();
 ```
 
-This initializes all the necessary resources, such as the Japanese and Chinese dictionaries. This operation is expensive and should be done, preferably, on another isolate. On the web platform, prefer server side initialization. 
+This initializes all the necessary resources, such as the Japanese and Chinese dictionaries. This operation is expensive and should be done, preferably, on another isolate. On the web platform, prefer server side initialization.
 
 ## Supported Languages
 
@@ -109,7 +103,7 @@ This initializes all the necessary resources, such as the Japanese and Chinese d
 - **Greek** (Ελληνικά) - Custom transliteration for Greek based on ISO 843 / ELOT 743
 - **Hebrew** (עברית) - Custom transliteration based on ISO 259-2
 - **Japanese** (日本語) - Using [`kuromoji`](https://pub.dev/packages/kuromoji) for Kanji conversion and [`kana_kit`](https://pub.dev/packages/kana_kit) for Kana and Katakana conversion
-- **Korean** (한국어)
+- **Korean** (한국어) - Custom transliteration for Korean based on ISO 11548
 
 ## API Reference
 

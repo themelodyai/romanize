@@ -1,4 +1,4 @@
-## [next]
+## 0.0.4
 
 - Added Devanagari romanization support based on IAST / ISO 15919.
 - Added Greek romanization support.

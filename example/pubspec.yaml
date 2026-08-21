@@ -8,9 +8,9 @@ environment:
   sdk: ^3.10.0
 
 dependencies:
-  jaspr: ^0.22.0
+  jaspr: ^0.22.1
   web: ^1.1.1
-  isolate_manager: ^6.1.2
+  isolate_manager: ^6.3.2
   romanize:
     path: ../
 
