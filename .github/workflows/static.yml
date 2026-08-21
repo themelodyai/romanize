@@ -36,7 +36,7 @@ jobs:
         run: dart run isolate_manager:generate
       - name: "Build Jaspr"
         run: |
-          dart pub global activate jaspr_cli
+          dart pub global activate jaspr_cli 0.22.4
           jaspr build --verbose
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
